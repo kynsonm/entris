@@ -1,0 +1,441 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1536796647198174394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1536796647198174397}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1536796647198174397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536796647198174394}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 309.5804, y: 760.8186, z: -13.624082}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1536796647506236690}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1536796647506236691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1536796647506236690}
+  - component: {fileID: 2611982022009494306}
+  - component: {fileID: 1536796647506236693}
+  - component: {fileID: 1536796647506236694}
+  - component: {fileID: 1536796647506236695}
+  - component: {fileID: 1536796647506236692}
+  - component: {fileID: 3439539387905561784}
+  - component: {fileID: 2336188148340083243}
+  m_Layer: 0
+  m_Name: Main Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1536796647506236690
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536796647506236691}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1536796647198174397}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2611982022009494306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536796647506236691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbaed2579d60cb94aa5212b7b4082734, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1536796647506236693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536796647506236691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afcf6760c0bc6d1498afcdba8f243c05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alwaysResetThemes: 0
+  themes:
+  - name: Dark
+    description: The standard dark theme
+    background: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+    UI_main: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+    UI_background: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
+    UI_accent1: {r: 0.34675202, g: 0.3713509, b: 0.688, a: 1}
+    UI_accent2: {r: 0.6862745, g: 0.34509805, b: 0.34812903, a: 1}
+    text_main: {r: 1, g: 1, b: 1, a: 1}
+    text_background: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
+    text_accent1: {r: 0.50285715, g: 0.62885654, b: 1, a: 1}
+    text_accent2: {r: 0.99607843, g: 0.49803922, b: 0.57822293, a: 1}
+    spotBackgroundColor: {r: 0.16862746, g: 0.16862746, b: 0.16862746, a: 1}
+    ghostBlock: {r: 0, g: 0, b: 0, a: 0}
+    blockColors:
+    - {r: 0, g: 0.91372555, b: 0.91372555, a: 1}
+    - {r: 0, g: 0, b: 0.91372555, a: 1}
+    - {r: 0.91372555, g: 0.60784316, b: 0, a: 1}
+    - {r: 0.91372555, g: 0.91372555, b: 0, a: 1}
+    - {r: 0, g: 0.91372555, b: 0, a: 1}
+    - {r: 0.60784316, g: 0, b: 0.91372555, a: 1}
+    - {r: 0.91372555, g: 0, b: 0, a: 1}
+    - {r: 0.9137255, g: 0, b: 0.67613095, a: 1}
+    - {r: 0, g: 0.33803585, b: 0.9137255, a: 1}
+    - {r: 0, g: 0.9137255, b: 0.5877818, a: 1}
+    - {r: 0.9137255, g: 0.33969575, b: 0, a: 1}
+  fonts:
+  - name: Made Tommy
+    description: Standard fonts
+    main: {fileID: 11400000, guid: 683c16fb2a915584babde4ca012e3b78, type: 2}
+    bold: {fileID: 11400000, guid: 3999a49c01ea1d24c96f5d684032f850, type: 2}
+    thin: {fileID: 11400000, guid: 077b30470e0624749872d11ae4ac17f8, type: 2}
+  blocks:
+  - name: Standard
+    description: The basic board looks
+    backgroundSprite: {fileID: 21300000, guid: 834dcbaa905bcb34392993d1231dbfbc, type: 3}
+    blockSprite: {fileID: 21300000, guid: 1a4797412a393e942a2d0662237c2400, type: 3}
+--- !u!114 &1536796647506236694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536796647506236691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e77bcc655fb2dc4ab7d3c85cac0caec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1536796647506236695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536796647506236691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3318e109699444e4dacc59a072e7223c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1536796647506236692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536796647506236691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eef44e0ee5a2c54d845d8c6fa0cdff6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  music: []
+  tap: {fileID: 0}
+  tap_nothing: {fileID: 0}
+  menu_move: {fileID: 0}
+  menu_drag: {fileID: 0}
+--- !u!114 &3439539387905561784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536796647506236691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6543b5aa396c7dd4a87046323967f1f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOptions:
+  - name: Standard
+    description: 'The standard tetronimo
+
+      (We can''t call it... you-know-what-tris...
+      due to copyright reasons!)'
+    width: 10
+    height: 20
+    type: 4
+    canRotate: 1
+    canFlip: 0
+    pieces:
+    - name: I
+      color: 0
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+      - {x: 2, y: 0}
+      - {x: 3, y: 0}
+      canRotate: 1
+    - name: J
+      color: 1
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 1, y: 0}
+      - {x: 2, y: 0}
+      canRotate: 1
+    - name: L
+      color: 2
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+      - {x: 2, y: 0}
+      - {x: 2, y: 1}
+      canRotate: 1
+    - name: O
+      color: 3
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 1, y: 0}
+      - {x: 1, y: 1}
+      canRotate: 0
+    - name: S
+      color: 4
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+      - {x: 1, y: 1}
+      - {x: 2, y: 1}
+      canRotate: 1
+    - name: T
+      color: 5
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+      - {x: 1, y: 1}
+      - {x: 2, y: 0}
+      canRotate: 1
+    - name: Z
+      color: 6
+      coordinates:
+      - {x: 0, y: 1}
+      - {x: 1, y: 1}
+      - {x: 1, y: 0}
+      - {x: 2, y: 0}
+      canRotate: 1
+  - name: Tritris
+    description: Pieces are only 3 big! But there's a twist, no pieces can be rotated!
+      The board is also smaller to fit the smaler pieces
+    width: 5
+    height: 10
+    type: 3
+    canRotate: 0
+    canFlip: 0
+    pieces:
+    - name: tall
+      color: 0
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 0, y: 2}
+      canRotate: 0
+    - name: flat
+      color: 1
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+      - {x: 2, y: 0}
+      canRotate: 0
+    - name: top right
+      color: 2
+      coordinates:
+      - {x: 0, y: 1}
+      - {x: 1, y: 1}
+      - {x: 1, y: 0}
+      canRotate: 0
+    - name: bottom right
+      color: 3
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+      - {x: 1, y: 1}
+      canRotate: 0
+    - name: bottom left
+      color: 4
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 1, y: 0}
+      canRotate: 0
+    - name: top left
+      color: 5
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 1, y: 1}
+      canRotate: 0
+  - name: Pentris
+    description: 'Pieces are 5 blocks large. With a larger set of pieces comes a
+      new feature: Flipping! You can flip pieces, as well as rotating them. (The
+      board is also a bit larger)'
+    width: 15
+    height: 30
+    type: 5
+    canRotate: 1
+    canFlip: 1
+    pieces:
+    - name: I
+      color: 0
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+      - {x: 2, y: 0}
+      - {x: 3, y: 0}
+      - {x: 4, y: 0}
+      canRotate: 1
+    - name: L
+      color: 1
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 1, y: 0}
+      - {x: 2, y: 0}
+      - {x: 3, y: 0}
+      canRotate: 1
+    - name: corner
+      color: 2
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 0, y: 2}
+      - {x: 1, y: 0}
+      - {x: 2, y: 0}
+      canRotate: 1
+    - name: F
+      color: 3
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+      - {x: 1, y: 1}
+      - {x: 2, y: 0}
+      - {x: 3, y: 0}
+      canRotate: 1
+    - name: P
+      color: 4
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 1, y: 0}
+      - {x: 1, y: 1}
+      - {x: 2, y: 0}
+      canRotate: 1
+    - name: T
+      color: 5
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 0, y: 2}
+      - {x: 1, y: 1}
+      - {x: 2, y: 1}
+      canRotate: 1
+    - name: +
+      color: 6
+      coordinates:
+      - {x: 0, y: 1}
+      - {x: 1, y: 0}
+      - {x: 1, y: 1}
+      - {x: 1, y: 2}
+      - {x: 2, y: 1}
+      canRotate: 0
+    - name: U
+      color: 7
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 1, y: 0}
+      - {x: 2, y: 0}
+      - {x: 2, y: 1}
+      canRotate: 1
+    - name: S
+      color: 8
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 0, y: 1}
+      - {x: 1, y: 1}
+      - {x: 2, y: 1}
+      - {x: 2, y: 2}
+      canRotate: 1
+    - name: 4
+      color: 9
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+      - {x: 2, y: 0}
+      - {x: 2, y: 1}
+      - {x: 3, y: 1}
+      canRotate: 1
+    - name: stairs
+      color: 10
+      coordinates:
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+      - {x: 1, y: 1}
+      - {x: 2, y: 1}
+      - {x: 2, y: 2}
+      canRotate: 1
+--- !u!114 &2336188148340083243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536796647506236691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37862743984bdc743bf63c94e2bd94c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  up1: 0
+  down1: 0
+  left1: 0
+  right1: 0
+  up2: 0
+  down2: 0
+  left2: 0
+  right2: 0
+  rotateL1: 0
+  rotateR1: 0
+  rotateL2: 0
+  rotateR2: 0
+  place1: 0
+  place2: 0
