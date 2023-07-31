@@ -12,13 +12,12 @@ public class ScrollRectPages : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     PinchableScrollRect pinchableScrollRect;
 
     // Options
-    [SerializeField] bool usePages = true;  // TODO: Implement this
     [SerializeField] bool horizontal = true;
     [SerializeField] bool vertical = true;
 
     [Space(5f)]
     [SerializeField] float delayBeforeSelecting;
-    [SerializeField] float selectionTime;
+    [SerializeField] public float selectionTime;
     [SerializeField] [Range(0f, 1f)] float velocityPower;
     [SerializeField] LeanTweenType selectionEaseCurve;
 

@@ -629,7 +629,7 @@ MonoBehaviour:
   maxFontSizePercentage: 0.85
   useMixedColor: 1
   mixedColor: 10
-  mixRatio: 0
+  mixRatio: 0.5
   alwaysOverrideChecks: 0
 --- !u!114 &2624819690338456388
 MonoBehaviour:

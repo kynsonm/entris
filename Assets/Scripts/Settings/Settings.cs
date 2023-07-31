@@ -51,9 +51,11 @@ public static class Settings
 
         // Save each SettingsMenu
         // TODO: Is this enough? I'm not sure lol
+        /*
         foreach (var menu in GameObject.FindObjectsOfType<SettingsMenu>()) {
             menu.Save();
         }
+        */
     }
 
     // Set settings to their initial values

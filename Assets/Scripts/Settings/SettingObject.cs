@@ -22,7 +22,7 @@ public class SettingObject : MonoBehaviour
 
     [SerializeField] UnityEvent loadEventBackup;
 
-    SettingsMenu settingsMenu;
+    //SettingsMenu settingsMenu;
     TMP_Text titleText;
 
     [HideInInspector] public float titleSize { get; private set; }
@@ -44,6 +44,8 @@ public class SettingObject : MonoBehaviour
         gameObject.name = settingName;
         titleText.text = settingName;
 
+        /*
+
         // Title and setting size
         float size = gameObject.GetComponent<RectTransform>().rect.height;
         RectTransform titleRect = titleText.transform.parent.GetComponent<RectTransform>();
@@ -57,6 +59,8 @@ public class SettingObject : MonoBehaviour
         height = size - (Screen.height * settingsMenu.settingMenuTitleSizeMultiplier);
         settingRect.sizeDelta = new Vector2(0f, height);
         settingRect.anchoredPosition = new Vector2(0f, 0f);
+
+        */
     }
 
     List<ImageTheme> imageThemes;
@@ -91,6 +95,7 @@ public class SettingObject : MonoBehaviour
     // Make sure each object is good
     bool GetObjects() {
         bool allGood = true;
+        /*
         if (settingsMenu == null) {
             settingsMenu = GameObject.FindObjectOfType<SettingsMenu>();
             if (settingsMenu == null) {
@@ -98,6 +103,7 @@ public class SettingObject : MonoBehaviour
                 allGood = false;
             }
         }
+        */
         if (titleText == null) {
             titleText = gameObject.GetComponentInChildren<TMP_Text>();
             if (titleText == null) {
