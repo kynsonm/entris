@@ -51,8 +51,12 @@ public class ScrollRectPagesMenu : MonoBehaviour
 
 
     // Monobehaviour methods
-    void Awake() { Start(); }
-    void Start() {
+    void OnEnable() {
+        StopAllCoroutines();
+        StartCoroutine(Start());
+    }
+    IEnumerator Start() {
+        yield return new WaitForEndOfFrame();
         Reset();
     }
     // Constantly update the layout and looks
@@ -73,6 +77,7 @@ public class ScrollRectPagesMenu : MonoBehaviour
     // -- Orient them horizontally or vertically
     // -- Set the sizes of each tab/menu
     public void Reset() {
+        StopAllCoroutines();
         ResetTabAndMenuObjects();
         StartCoroutine(ResetTabAndMenuSizes());
     }
@@ -82,46 +87,53 @@ public class ScrollRectPagesMenu : MonoBehaviour
     IEnumerator ResetTabAndMenuSizes() {
         // Only do the waiting when the game is playing
         // AKA in the editor, do everything right away
-        if (Application.isPlaying) {
-            yield return new WaitForEndOfFrame();
-        }
+        if (Application.isPlaying) { yield return new WaitForEndOfFrame(); }
 
         float tabParentHeight = tabsHolder.parent.GetComponent<RectTransform>().rect.height;
-        RectTransform tabMenusHolderParent = tabMenusHolder.parent.GetComponent<RectTransform>();
-        float menuParentWidth = tabMenusHolderParent.rect.width;
+        float menuParentWidth = tabMenusHolder.parent.GetComponent<RectTransform>().rect.width;
         float baseTitleSize = 0.15f * menuParentWidth;
 
         // Set the size of the tabs and menus and titles and stuff
         foreach (TabClass tab in tabs) {
             tab.SetTabWidth(tabParentHeight, tabSizeMultiplier);
-            tab.SetMenuSize(menuParentWidth, onePage);
             tab.SetTitleHeight(baseTitleSize, titleSizeMiltiplier);
+            tab.SetItemAreaSize();
         }
 
         // Set the size of paddings
-        ResetLayoutGroups(tabParentHeight, menuParentWidth);
+        float paddingTop = ResetLayoutGroups(tabParentHeight, menuParentWidth);
 
-        if (Application.isPlaying) {
-            yield return new WaitForEndOfFrame();
+        if (Application.isPlaying) { yield return new WaitForEndOfFrame(); }
+
+        foreach (TabClass tab in tabs) {
+            tab.SetMenuSize(menuParentWidth, onePage);
         }
+
+        if (Application.isPlaying) { yield return new WaitForEndOfFrame(); }
 
         // Set the size of the parent
         RectTransformSizing.SetWidthToWidthOfChildren(tabsHolder);
-        RectTransformSizing.SetWidthToWidthOfChildren(tabMenusHolder);
-
-        if (Application.isPlaying) {
-            yield return new WaitForEndOfFrame();
+        if (!onePage) {
+            RectTransformOffset.Vertical(tabMenusHolder.GetComponent<RectTransform>(), 0f);      
+            RectTransformSizing.SetWidthToWidthOfChildren(tabMenusHolder);
+        } else {
+            RectTransformOffset.Sides(tabMenusHolder.GetComponent<RectTransform>(), 0f);
+            RectTransformSizing.SetHeightToHeightOfChildren(tabMenusHolder);
         }
+
+        if (Application.isPlaying) { yield return new WaitForEndOfFrame(); }
 
         // Set the onClick functions to their respective distances
         float selectionTime = (scrollRectPages == null) ? 0.25f : scrollRectPages.selectionTime;
         foreach (TabClass tab in tabs) {
-            tab.SetButtonClick(tabMenusHolder.GetComponent<RectTransform>(), tabMenusHolderParent, selectionTime);
+            RectTransform holderRect = tabMenusHolder.GetComponent<RectTransform>();
+            RectTransform tabMenusHolderParent = tabMenusHolder.parent.GetComponent<RectTransform>();
+            tab.SetButtonClick(holderRect, tabMenusHolderParent, paddingTop, selectionTime, onePage);
         }
     }
 
     // Setup the size of paddings and each layout group
-    void ResetLayoutGroups(float tabParentHeight, float menuParentWidth) {
+    float ResetLayoutGroups(float tabParentHeight, float menuParentWidth) {
         HorizontalLayoutGroup tabLayout = tabsHolder.GetComponent<HorizontalLayoutGroup>();
         if (tabLayout != null) {
             tabLayout.padding.top = (int)(tabParentHeight * tabVertPaddingMult.x);
@@ -153,9 +165,10 @@ public class ScrollRectPagesMenu : MonoBehaviour
                 rightPadding = newPadding;
             }
         }
-
         menuLayout.padding.left = (int)leftPadding;
         menuLayout.padding.right = (int)rightPadding;
+
+        return menuLayout.padding.top;
     }
 
 
@@ -189,6 +202,11 @@ public class ScrollRectPagesMenu : MonoBehaviour
                 tab.icon = tab.iconImage.sprite;
                 tab.color = tab.imageTheme.color;
                 tab.tabRect = newTab.GetComponent<RectTransform>();
+
+                tab.iconButton = newTab.GetComponent<Button>();
+                if (tab.iconButton == null) {
+                    tab.iconButton = newTab.GetComponentInChildren<Button>();
+                }
             }
             else { GameObject.DestroyImmediate(tabsHolder.GetChild(tabs.Count).gameObject); }
         }
@@ -206,6 +224,8 @@ public class ScrollRectPagesMenu : MonoBehaviour
                 tab.titleTheme = tab.tabNameTMP.gameObject.GetComponent<TextTheme>();
                 tab.description = tab.tabDescriptionTMP.text;
                 tab.menuRect = newMenu.GetComponent<RectTransform>();
+
+                tab.contentHolderRect = newMenu.transform.Find("Padding").GetComponent<RectTransform>();
             }
             else { GameObject.DestroyImmediate(tabMenusHolder.GetChild(tabs.Count).gameObject); }
         }
@@ -239,8 +259,17 @@ public class ScrollRectPagesMenu : MonoBehaviour
             lastShowSearch = true;
         }
 
+        // Edit ScrollRectPages
+        if (scrollRectPages != null) {
+            scrollRectPages.horizontal = !onePage;
+            scrollRectPages.vertical = onePage;
+
+            ScrollRect scrollRect = scrollRectPages.gameObject.GetComponent<ScrollRect>();
+            scrollRect.horizontal = !onePage;
+            scrollRect.vertical = onePage;
+        }
+
         // Switch layout to one page or not
-        // TODO: This
         if (onePage && !lastOnePage) {
             HorizontalLayoutGroup horLayout = tabMenusHolder.GetComponent<HorizontalLayoutGroup>();
 #if UNITY_EDITOR
@@ -330,6 +359,7 @@ public class ScrollRectPagesMenu : MonoBehaviour
         [HideInInspector] public TextTheme titleTheme;
         [HideInInspector] public Button iconButton;
 
+        [HideInInspector] public RectTransform contentHolderRect;
         [HideInInspector] public RectTransform tabRect, menuRect, titleRect;
 
         public void Reset() { Reset(false); }
@@ -372,10 +402,19 @@ public class ScrollRectPagesMenu : MonoBehaviour
             float size = tabSizeMultiplier * tabWidthMultiplier * tabAreaHeight;
             tabRect.sizeDelta = new Vector2(size, tabRect.sizeDelta.y);
         }
+        public void SetItemAreaSize() {
+            // TODO:  WHY DOESNT THIS WORK???
+            RectTransform child = contentHolderRect.GetChild(0).GetComponent<RectTransform>();
+            float height = RectTransformSizing.HeightOfChildren(child);
+            height = (height < 0.01f) ? 0f : height;
+            contentHolderRect.sizeDelta = new Vector2(0f, height);
+            contentHolderRect.anchoredPosition = new Vector2(0f, 0f);
+        }
         public void SetMenuSize(float menuAreaSize, bool isVertical) {
             float size = menuSizeMultiplier * menuAreaSize;
             if (!isVertical) {
                 menuRect.sizeDelta = new Vector2(size, menuRect.sizeDelta.y);
+                RectTransformSizing.SetHeightToHeightOfChildren(menuRect.transform, false);
                 return;
             }
             RectTransformSizing.SetHeightToHeightOfChildren(menuRect.transform, false);
@@ -383,32 +422,39 @@ public class ScrollRectPagesMenu : MonoBehaviour
         public void SetTitleHeight(float baseTitleSize, float titleSizeMultiplier) {
             float size = baseTitleSize * titleSizeMultiplier * titleHeightMultiplier;
             titleRect.sizeDelta = new Vector2(titleRect.sizeDelta.x, size);
+            titleRect.anchoredPosition = new Vector2(0f, 0f);
         }
 
-        public void SetButtonClick(RectTransform menuHolder, RectTransform menuHolderParent, float selectionTime) {
-            if (iconButton == null) {
-                iconButton = tabObject.GetComponent<Button>();
-                if (iconButton == null) {
-                    iconButton = tabObject.GetComponentInChildren<Button>();
-                }
-                if (iconButton == null) {
-                    return;
-                }
-            }
+        public void SetButtonClick
+        (RectTransform menuHolder, RectTransform menuHolderParent, float paddingTop, float selectionTime, bool isOnePage)
+        {
+            if (iconButton == null) { return; }
 
+            // Want:
+            // -- Set TOP of the holder to TOP of the menu
+            // -- Set XPOS of the holder to XPOS - (CENTER of the menu)
             iconButton.onClick.RemoveAllListeners();
             iconButton.onClick.AddListener(() => {
-                Vector3 menuHolderParentCenter = menuHolderParent.TransformPoint(menuHolderParent.rect.center);
-                Vector3 menuCenter = menuRect.TransformPoint(menuRect.rect.center);
-                Vector3 offset = menuCenter - menuHolderParentCenter;
+                // Get offsets in each dimensions
+                float xOffset = menuRect.TransformPoint(menuRect.rect.center).x;
+                xOffset -= menuHolderParent.TransformPoint(menuHolderParent.rect.center).x;
+                float yOffset = menuRect.rect.yMax - menuHolderParent.rect.yMax + paddingTop;
+                if (isOnePage) {
+                    xOffset = menuHolder.TransformPoint(menuHolder.rect.center).x;
+                    xOffset -= menuHolderParent.TransformPoint(menuHolderParent.rect.center).x;
+                } else {
+                    yOffset = menuHolder.anchoredPosition.y;
+                }
 
+                // Do the click immediately if not selection time
                 if (selectionTime <= 0.01f) {
-                    menuHolder.position -= offset;
+                    menuHolder.position -= new Vector3(xOffset, yOffset, 0f);
                     return;
                 }
 
+                // Otherwise, lean it
                 Vector3 startPos = menuHolder.position;
-                Vector3 endPos = menuHolder.position - offset;
+                Vector3 endPos = menuHolder.position - new Vector3(xOffset, yOffset, 0f);
 
                 LeanTween.cancel(menuHolder.gameObject);
                 LeanTween.value(menuHolder.gameObject, 0f, 1f, selectionTime)
@@ -420,6 +466,15 @@ public class ScrollRectPagesMenu : MonoBehaviour
                     menuHolder.position = endPos;
                 });
             });
+        }
+
+        public override string ToString() {
+            string str = "";
+            str += $"Name = {name}\n";
+            str += $"--- tabObject = {tabObject.name}\n";
+            str += $"--- menuObject = {menuObject.name}\n";
+            str += $"--- iconButton = {iconButton.name}\n";
+            return str;
         }
     }
 }

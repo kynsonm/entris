@@ -95,8 +95,8 @@ public class VerticalLayoutEditor : MonoBehaviour
 
             if (totalSize > 100000f || totalSize < 100000f) { totalSize = 0f; }
 
-            if (expandParentSizeToChildrenSize && rect.sizeDelta.y != totalSize - viewSize && lastTotalSize != totalSize) {
-                Debug.Log("Setting holder rect size to totalSize of " + (totalSize-viewSize) + " from rect.sizeDelta.y of " + rect.sizeDelta.y);
+            if (expandParentSizeToChildrenSize /* && rect.sizeDelta.y != totalSize - viewSize && lastTotalSize != totalSize */ ) {
+                //Debug.Log("Setting holder rect size to totalSize of " + (totalSize-viewSize) + " from rect.sizeDelta.y of " + rect.sizeDelta.y);
                 rect.sizeDelta = new Vector2(rect.sizeDelta.x, totalSize);
             }
         }

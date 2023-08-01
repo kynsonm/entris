@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public static class RectTransformSizing
 {
     // Sets the size of the parent Object to that of the combined size of the children
-    public static void SetWidthToWidthOfChildren(Transform transform) {
-        SetWidthToWidthOfChildren(transform.GetComponent<RectTransform>(), true);
+    public static float SetWidthToWidthOfChildren(Transform transform) {
+        return SetWidthToWidthOfChildren(transform.GetComponent<RectTransform>(), true);
     }
-    public static void SetWidthToWidthOfChildren(Transform transform, bool parentSizeIsMinimum) {
+    public static float SetWidthToWidthOfChildren(Transform transform, bool parentSizeIsMinimum) {
         RectTransform rectTransform = transform.GetComponent<RectTransform>();
         float width = WidthOfChildren(rectTransform);
         if (parentSizeIsMinimum) {
@@ -17,12 +17,13 @@ public static class RectTransformSizing
             width = (width < parentRect.rect.width) ? parentRect.rect.width : width;
         }
         RectTransformOffset.SetWidth(rectTransform, width);
+        return width;
     }
     
-    public static void SetHeightToHeightOfChildren(Transform transform) {
-        SetHeightToHeightOfChildren(transform.GetComponent<RectTransform>(), true);
+    public static float SetHeightToHeightOfChildren(Transform transform) {
+        return SetHeightToHeightOfChildren(transform.GetComponent<RectTransform>(), true);
     }
-    public static void SetHeightToHeightOfChildren(Transform transform, bool parentSizeIsMinimum) {
+    public static float SetHeightToHeightOfChildren(Transform transform, bool parentSizeIsMinimum) {
         RectTransform rectTransform = transform.GetComponent<RectTransform>();
         float height = HeightOfChildren(rectTransform);
         if (parentSizeIsMinimum) {
@@ -30,6 +31,7 @@ public static class RectTransformSizing
             height = (height < parentRect.rect.height) ? parentRect.rect.height : height;
         }
         RectTransformOffset.SetHeight(rectTransform, height);
+        return height;
     }
 
     public static void SetSizeToSizeOfChildren(Transform transform) {

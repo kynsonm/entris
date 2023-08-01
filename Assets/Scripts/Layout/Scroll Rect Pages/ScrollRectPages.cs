@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/* ===== TODO: =====
+-- Implement a better selection system
+-- -- ex. Select based on the top of the menu depending on horizontal/vertical, etc
+-- Work out vertical stuff
+*/
+
 namespace UnityEngine.UI {
 
 [RequireComponent(typeof(ScrollRect))]
@@ -12,8 +18,8 @@ public class ScrollRectPages : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     PinchableScrollRect pinchableScrollRect;
 
     // Options
-    [SerializeField] bool horizontal = true;
-    [SerializeField] bool vertical = true;
+    [SerializeField] public bool horizontal = true;
+    [SerializeField] public bool vertical = true;
 
     [Space(5f)]
     [SerializeField] float delayBeforeSelecting;
@@ -50,24 +56,41 @@ public class ScrollRectPages : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         }
     }
 
+
+    // ----- DRAGGING EVENT CALLBACKS -----
+
     // Stop all selection when a drag starts
+    // -- So users can start dragging again if a menu is being selected
     public void OnBeginDrag(PointerEventData eventData) {
         StopAllCoroutines();
         gameObject.LeanCancel();
     }
 
     // On end drag, select the closest "menu" (child object)
+    // -- Which means tweening the parent rect such that the selected child is central
     public void OnEndDrag(PointerEventData eventData) {
         StopAllCoroutines();
         gameObject.LeanCancel();
         StartCoroutine(WaitToSelect());
     }
+
+    // Wait the given amount of <delay> before selecting the menu
+    // -- Allows the velocity to keep moving the menu for a bit (feels better)
     IEnumerator WaitToSelect() {
         yield return new WaitForSeconds(delayBeforeSelecting);
         SelectMenu();
     }
+
+
+    // ----- MENU SELECTION -----
+
+    // Actually select the menu
+    // -- Find the closest child to the center of the parent
+    // -- Get the x/y amounts needed to make it center
+    // -- Tween it there
     void SelectMenu() {
         if (!CheckScrollRect()) { return; }
+
         RectTransform rect = scrollRect.content;
         Vector2 velocity = pow(scrollRect.velocity, velocityPower);
         Vector2 startPos = rect.position;
@@ -96,6 +119,9 @@ public class ScrollRectPages : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         });
     }
 
+    // Gets the distance needed to move the menu to make the child central
+    // -- First, find the closest central child
+    // -- Then, get its distance to the center
     Vector3 ClosestChildOffset() {
         if (scrollRect.content.transform.childCount == 0) { return new Vector3(0f, 0f, 0f); }
         Vector2 center = CenterOfRect(scrollRect.viewport);
@@ -116,6 +142,8 @@ public class ScrollRectPages : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         Vector2 offset = CenterOfRect(closest) - CenterOfRect(scrollRect.viewport);
         return offset;
     }
+
+    // 
     Vector2 CenterOfRect(RectTransform rect) {
         Vector2 pos = rect.position;
         pos = rect.TransformPoint(rect.rect.center);
@@ -123,13 +151,16 @@ public class ScrollRectPages : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         return pos;
     }
 
+
+    // ----- UTILITIES -----
+
+    // Simple power function
     Vector2 pow(Vector2 num, float pow) {
         Vector2 signs = new Vector2(num.x < 0 ? -1f : 1f, num.y < 0 ? -1f : 1f);
         num = new Vector2(Mathf.Abs(num.x), Mathf.Abs(num.y));
         num = new Vector2(Mathf.Pow(num.x, pow), Mathf.Pow(num.y, pow));
         return signs * num;
     }
-
 
     // Get the scroll rect if necessary
     bool CheckScrollRect() {
