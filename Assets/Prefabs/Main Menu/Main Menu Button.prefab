@@ -134,7 +134,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 18.466667
+  m_Spacing: 26.333334
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -157,13 +157,15 @@ MonoBehaviour:
   controlWidth: 1
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
-  objects: []
-  sizes:
-  - 500
-  - 1750
+  objects:
+  - gameObject: {fileID: 2743613086001271001}
+    size: 500
+  - gameObject: {fileID: 2743613086769352446}
+    size: 2000
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 30
+  dontResetCustomSizesList: 0
 --- !u!114 &7291587392381413561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,12 +398,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.975002
+  m_fontSize: 78.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 48.975002
+  m_fontSizeMax: 78.600006
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -515,7 +517,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 1000
+  m_PreferredWidth: 1500
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -596,7 +598,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 3.4442832
+  m_PixelsPerUnitMultiplier: 2.7553954
 --- !u!114 &2743613087064906487
 MonoBehaviour:
   m_ObjectHideFlags: 0

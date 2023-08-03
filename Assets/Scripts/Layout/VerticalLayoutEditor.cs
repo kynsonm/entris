@@ -10,14 +10,59 @@ namespace UnityEngine.UI {
 [RequireComponent(typeof(VerticalLayoutGroup))]
 public class VerticalLayoutEditor : MonoBehaviour
 {
+    [System.Serializable]
+    public class VerticalLayoutObject {
+        [SerializeField] GameObject gameObject;
+        [HideInInspector] LayoutElement layoutGroup;
+        [SerializeField] [Min(0f)] public float size;
+        public Transform transform {
+            get { return gameObject.transform; }
+            private set { }
+        }
+        public bool allGood {
+            get {
+                if (gameObject == null) { return false; }
+                if (layoutGroup == null) {
+                    layoutGroup = gameObject.GetComponent<LayoutElement>();
+                }
+                return gameObject != null && layoutGroup != null;
+            }
+        }
+
+        public void SetPreferredHeight() {
+            size = (size < -1.05f) ? -1 : size;
+            layoutGroup.preferredHeight = size;
+        }
+        public float SetRealHeight(float parentSize) {
+            layoutGroup.preferredHeight = -1;
+            float size = this.size * parentSize;
+            size = (size < 0f) ? 0f : size;
+            RectTransform rect = gameObject.GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(rect.sizeDelta.x, size);
+            return size;
+        }
+        public bool Equals(GameObject gameObject) {
+            return this.gameObject == gameObject;
+        }
+
+        public VerticalLayoutObject(GameObject gameObject, LayoutElement layoutGroup) {
+            this.gameObject = gameObject;
+            this.layoutGroup = layoutGroup;
+            size = 0.1f;
+        }
+        public VerticalLayoutObject(GameObject gameObject, LayoutElement layoutGroup, float size) {
+            this.gameObject = gameObject;
+            this.layoutGroup = layoutGroup;
+            this.size = size;
+        }
+    }
+
     public bool controlHeight = true;
     bool lastControlHeight = true;
     public bool expandHeight = true;
     [SerializeField] bool expandParentSizeToChildrenSize = false;
 
-    [SerializeField] public List<GameObject> objects = new List<GameObject>();
-    List<LayoutElement> layoutGroups = new List<LayoutElement>();
-    public List<float> sizes = new List<float>();
+    [SerializeField] public List<VerticalLayoutObject> objects = new List<VerticalLayoutObject>();
     public Vector2 vertPaddingMultiplier = new Vector2(0f, 0f);
     public Vector2 horPaddingMultiplier = new Vector2(0f, 0f);
     public float spacingDivider = 0f;
@@ -36,27 +81,36 @@ public class VerticalLayoutEditor : MonoBehaviour
         yield return new WaitForEndOfFrame();
         Reset();
     }
+ #if UNITY_EDITOR
+    private void Update() {
+        if (!Application.isPlaying) {
+            Reset();
+        }
+    }
+ #endif
 
     public void Reset() {
         if (!gameObject.activeInHierarchy) { return; }
         GetObjects();
-        if (transform.childCount != objects.Count + ignoreCount || transform.childCount != sizes.Count + ignoreCount) {
+        if (objects.Count != transform.childCount - ignoreCount) {
             AddAllElements();
+        }
+        for (int i = 0; i < objects.Count; ++i) {
+            if (!objects[i].allGood) {
+                AddAllElements();
+                break;
+            }
         }
         CheckAndUpdateSizes();
         UpdatePadding();
     }
 
-    float lastTotalSize;
     void CheckAndUpdateSizes() {
         vertical.childControlWidth = true;
         vertical.childForceExpandWidth = true;
         vertical.childControlHeight = controlHeight;
         vertical.childForceExpandHeight = expandHeight;
 
-        if (objects.Count != layoutGroups.Count) {
-            AddAllElements();
-        }
         if (lastControlHeight != controlHeight) {
             AddAllElements();
             lastControlHeight = controlHeight;
@@ -67,40 +121,44 @@ public class VerticalLayoutEditor : MonoBehaviour
         else { parentRect = vertical.transform.parent.GetComponent<RectTransform>(); }
         float parentSize = Mathf.Min(parentRect.rect.width, parentRect.rect.height);
 
+        // Set each child to their respective size
         float totalSize = 0f;
         for (int i = 0; i < objects.Count; ++i) {
-            if (objects[i] == null || layoutGroups[i] == null) { continue; }
+            var layoutObject = objects[i];
+            // If no gameObject or layoutGroup, skip it
+            if (!layoutObject.allGood) {
+                Debug.Log("Not all good. Continuing");
+                continue;
+            }
+
             if (controlHeight) {
-                layoutGroups[i].preferredHeight = sizes[i];
-                totalSize += sizes[i];
+                layoutObject.SetPreferredHeight();
             } else {
-                //layoutGroups[i].preferredHeight = 0f;
-                float size = sizes[i] * parentSize;
-                RectTransform childRect = objects[i].GetComponent<RectTransform>();
-                childRect.sizeDelta = new Vector2(childRect.sizeDelta.x, size);
-                totalSize += size;
+                float newSize = layoutObject.SetRealHeight(parentSize);
+                newSize = (newSize < 0f) ? 0f : newSize;
+                totalSize += newSize;
             }
         }
 
+        // Only continue if we want the object to expand with its children sizing
+        if (controlHeight) {
+            vertical.childControlHeight = true;
+            return;
+        }
+        if (!expandParentSizeToChildrenSize) { return; }
+
+        // Set the holder's size depending on its childrens' sizes
         totalSize += vertical.padding.top + vertical.padding.bottom;
         totalSize += (objects.Count - ignoreCount - 1) * vertical.spacing;
-        RectTransform rect = gameObject.GetComponent<RectTransform>();
-        if (!vertical.childControlHeight) {
-            float viewSize = parentRect.rect.height;
 
-            if (viewSize >= totalSize) {
-                totalSize = viewSize;
-            }
-            totalSize -= viewSize * (rectTransform.anchorMax.y - rectTransform.anchorMin.y);
-
-            if (totalSize > 100000f || totalSize < 100000f) { totalSize = 0f; }
-
-            if (expandParentSizeToChildrenSize /* && rect.sizeDelta.y != totalSize - viewSize && lastTotalSize != totalSize */ ) {
-                //Debug.Log("Setting holder rect size to totalSize of " + (totalSize-viewSize) + " from rect.sizeDelta.y of " + rect.sizeDelta.y);
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x, totalSize);
-            }
+        float viewportSize = parentRect.rect.height;
+        if (viewportSize > totalSize) {
+            totalSize = viewportSize;
         }
-        lastTotalSize = totalSize;
+        totalSize -= viewportSize * (rectTransform.anchorMax.y - rectTransform.anchorMin.y);
+        totalSize = (totalSize > 50000f || totalSize < 0f) ? 0f : totalSize;
+
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, totalSize);
     }
 
     // Updates side padding size, depending on screen width
@@ -125,14 +183,13 @@ public class VerticalLayoutEditor : MonoBehaviour
     // Adds all children of HorizontalLayoutHolder to Objects
     public void AddAllElements() {
         // Resets Objects and Sizes
-        objects = new List<GameObject>();
-        layoutGroups = new List<LayoutElement>();
+        objects = new List<VerticalLayoutObject>();
         ignoreCount = 0;
 
         RectTransform parentRect;
         if (vertical.transform.parent == null) { parentRect = rectTransform; }
         else { parentRect = vertical.transform.parent.GetComponent<RectTransform>(); }
-        float parentSize = Mathf.Min(Screen.height, Screen.width);
+        float parentSize = Mathf.Min(parentRect.rect.width, parentRect.rect.height);
         if (parentSize <= 0.01f) { parentSize = 9999999999f; }
 
         // For all children
@@ -146,30 +203,16 @@ public class VerticalLayoutEditor : MonoBehaviour
             }
             // If ignoreLayout is off, add this object to Objects and its size to Sizes
             if (!layout.ignoreLayout) {
-                objects.Add(child.gameObject);
-                layoutGroups.Add(layout);
+                float newSize = 0.1f;
+                if (vertical.childControlHeight) {
+                    newSize = layout.preferredHeight;
+                }
+                else if (!dontResetCustomSizesList) {
+                    newSize = child.GetComponent<RectTransform>().rect.height / parentSize;
+                }
+                objects.Add(new VerticalLayoutObject(child.gameObject, layout, newSize));
             } else {
                 ++ignoreCount;
-            }
-        }
-
-        if (sizes == null) { sizes = new List<float>(); }
-        // Remove extras
-        for (int i = sizes.Count; i > objects.Count; ++i) {
-            sizes.RemoveAt(i-1);
-        }
-        // Add new ones
-        for (int i = 0; i < objects.Count; ++i) {
-            if (i == sizes.Count) { sizes.Add(0.1f); }
-
-            LayoutElement layout = layoutGroups[i];
-            Transform trans = objects[i].transform;
-            if (vertical.childControlHeight) {
-                sizes[i] = layout.preferredHeight;
-            }
-            else if (!dontResetCustomSizesList) {
-                float size = trans.GetComponent<RectTransform>().rect.height / parentSize;
-                sizes[i] = size;
             }
         }
     }
@@ -182,14 +225,4 @@ public class VerticalLayoutEditor : MonoBehaviour
             vertical = gameObject.GetComponent<VerticalLayoutGroup>();
         }
     }
-
-
-#if UNITY_EDITOR
-    private void Update() {
-        if (!Application.isPlaying) {
-            Reset();
-        }
-    }
-#endif
-
 }}

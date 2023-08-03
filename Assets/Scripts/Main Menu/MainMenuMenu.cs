@@ -18,6 +18,8 @@ public class MainMenuMenu : MonoBehaviour
     [SerializeField] ThemeColor titleBarColor;
     [SerializeField] ThemeColor mixColor;
     [SerializeField] [Range(0f, 1f)] float mixColorRatio;
+    [Header("Other Children Stuff")]
+    [SerializeField] [Range(0f, 1f)] float paddingMultiplier;
     RectTransform titleBarRect;
     TMP_Text titleTMP;
     TextTheme titleTextTheme;
@@ -32,6 +34,7 @@ public class MainMenuMenu : MonoBehaviour
 
     public void Reset() {
         ResetTitle();
+        ResetOtherObject();
     }
 
     void ResetTitle() {
@@ -50,6 +53,25 @@ public class MainMenuMenu : MonoBehaviour
         titleBarImageTheme.useMixedColor = true;
         titleBarImageTheme.mixedColor = mixColor;
         titleBarImageTheme.mixRatio = mixColorRatio;
+    }
+
+    void ResetOtherObject() {
+        if (transform.childCount != 2) { return; }
+
+        Transform child = transform.GetChild(1);
+        if (child == transform.Find("Title")) {
+            child = transform.GetChild(0);
+        }
+
+        RectTransform childRect = child.GetComponent<RectTransform>();
+        childRect.anchorMax = new Vector2(1f, 0f);
+        childRect.anchorMin = new Vector2(0f, 0f);
+        childRect.pivot = new Vector2(0.5f, 0f);
+        childRect.anchoredPosition = new Vector2(0f, 0f);
+
+        float height = menuRect.rect.height * (1f - titleSizeMultiplier);
+        height *= (1f - paddingMultiplier);
+        childRect.sizeDelta = new Vector2(childRect.sizeDelta.x, height);
     }
 
     bool GetTitleObjects() {

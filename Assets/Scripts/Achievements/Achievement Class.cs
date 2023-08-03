@@ -6,15 +6,29 @@ using UnityEngine.Events;
 
 namespace Achievements {
 
+    // Enum for each type of achievement
+    [System.Serializable]
+    public enum AchievmentCategoryEnum {
+        gamesCompleted, daysPlayed, 
+    }
 
-// Collection of acheivements for each group
-[System.Serializable]
-public class AchievementGroup
-{
-    [SerializeField] AchievementCategory category;
-    [SerializeField] List<Achievement> achievements;
-}
+    // Class to hold each category of achievements
+    // Ex. its enum, name, color, description, etc
+    [System.Serializable]
+    public class AchievementCategory
+    {
+        public AchievmentCategoryEnum category;
+        public ThemeColor color;
+    }
 
+
+    // Collection of acheivements for each group
+    [System.Serializable]
+    public class AchievementGroup
+    {
+        [SerializeField] public AchievementCategory category;
+        [SerializeField] public List<Achievement> achievements;
+    }
 
 
 // Class that represents an achievement
@@ -28,33 +42,34 @@ public class Achievement
     public long id;
 
     [Header("--- Info ---")]
-    [SerializeField] protected string name;
-    [SerializeField] protected string description;
+    [SerializeField] public string name;
+    [SerializeField] public string description;
 
     [Header("--- Progress ---")]
     [SerializeField] protected int targetNumber;
     [SerializeField] protected UnityEvent progressMethod;
+    [HideInInspector] protected float progress;
 
     [Header("--- Icon ---")]
-    [SerializeField] protected Sprite iconSprite;
-    [SerializeField] protected ImageColor iconColor;
-    [SerializeField] protected string iconText;
+    [SerializeField] public Sprite iconSprite;
+    [SerializeField] public ImageColor iconColor;
+    [SerializeField] public string iconText;
 
     [Header("--- Reward ---")]
-    [SerializeField] protected int xp;
-    [SerializeField] protected int money;
-    [SerializeField] protected string rewardText;
+    [SerializeField] public int xp;
+    [SerializeField] public int money;
+    [SerializeField] public string rewardText;
 
     // Collection
-    public bool achieved = false;
-    public bool collected = false;
+    [HideInInspector] public bool achieved = false;
+    [HideInInspector] public bool collected = false;
 
 
     // ----- METHODS -----
 
-    // Check the progress of the achievement
-    public void CheckProgress() {
+    public float Progress() {
         progressMethod.Invoke();
+        return progress;
     }
 
     // Unlock/Achieve the achievement
@@ -73,6 +88,7 @@ public class Achievement
         // Check progress method?
 
         achieved = true;
+        AchievementManager.Save();
         return true;
     }
 
@@ -88,6 +104,7 @@ public class Achievement
         // TODO: Collecting stuff idk
 
         collected = true;
+        AchievementManager.Save();
         return true;
     }
 }

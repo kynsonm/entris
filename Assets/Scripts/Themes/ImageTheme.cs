@@ -46,6 +46,13 @@ namespace UnityEngine.UI {
         void OnEnable() {
             StartCoroutine(Start());
         }
+ #if UNITY_EDITOR
+        private void Update() {
+            if (!Application.isPlaying) {
+                Reset();
+            }
+        }
+ #endif
 
 
         // --- Methods
@@ -100,13 +107,5 @@ namespace UnityEngine.UI {
                 }
             }
         }
-
-    #if UNITY_EDITOR
-        private void Update() {
-            if (!Application.isPlaying /* && stateHasChanged() */) {
-                Reset();
-            }
-        }
-    #endif
     }
 }

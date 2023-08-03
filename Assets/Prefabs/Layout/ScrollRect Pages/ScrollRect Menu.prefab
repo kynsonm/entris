@@ -82,11 +82,10 @@ MonoBehaviour:
   expandHeight: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 8560642253376165285}
-  - {fileID: 8363462925450137526}
-  sizes:
-  - 0.27139756
-  - 0.27139756
+  - gameObject: {fileID: 0}
+    size: 0
+  - gameObject: {fileID: 0}
+    size: 0
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 0
@@ -409,7 +408,7 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &4480996452541603989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,11 +451,10 @@ MonoBehaviour:
   expandHeight: 0
   expandParentSizeToChildrenSize: 1
   objects: []
-  sizes: []
   vertPaddingMultiplier: {x: 0.025, y: 0.025}
   horPaddingMultiplier: {x: 0.015, y: 0.015}
   spacingDivider: 50
-  dontResetCustomSizesList: 1
+  dontResetCustomSizesList: 0
 --- !u!114 &8255684812260228903
 MonoBehaviour:
   m_ObjectHideFlags: 0

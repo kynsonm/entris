@@ -10,15 +10,60 @@ namespace UnityEngine.UI {
 [RequireComponent(typeof(HorizontalLayoutGroup))]
 public class HorizontalLayoutEditor : MonoBehaviour
 {
+    [System.Serializable]
+    public class HorizontalLayoutObject {
+        [SerializeField] GameObject gameObject;
+        [HideInInspector] LayoutElement layoutGroup;
+        [SerializeField] [Min(0f)] public float size;
+        public Transform transform {
+            get { return gameObject.transform; }
+            private set { }
+        }
+        public bool allGood {
+            get {
+                if (gameObject == null) { return false; }
+                if (layoutGroup == null) {
+                    layoutGroup = gameObject.GetComponent<LayoutElement>();
+                }
+                return gameObject != null && layoutGroup != null;
+            }
+        }
+
+        public void SetPreferredWidth() {
+            size = (size < -1.05f) ? -1 : size;
+            layoutGroup.preferredWidth = size;
+        }
+        public float SetRealWidth(float parentSize) {
+            layoutGroup.preferredWidth = -1;
+            float size = this.size * parentSize;
+            size = (size < 0f) ? 0f : size;
+            RectTransform rect = gameObject.GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(size, rect.sizeDelta.y);
+            return size;
+        }
+        public bool Equals(GameObject gameObject) {
+            return this.gameObject == gameObject;
+        }
+
+        public HorizontalLayoutObject(GameObject gameObject, LayoutElement layoutGroup) {
+            this.gameObject = gameObject;
+            this.layoutGroup = layoutGroup;
+            size = 0.1f;
+        }
+        public HorizontalLayoutObject(GameObject gameObject, LayoutElement layoutGroup, float size) {
+            this.gameObject = gameObject;
+            this.layoutGroup = layoutGroup;
+            this.size = size;
+        }
+    }
+
     public bool controlWidth = true;
     bool lastControlWidth = true;
     public bool expandWidth = true;
     [SerializeField] bool expandParentSizeToChildrenSize = false;
 
     [Space(10f)]
-    [SerializeField] List<GameObject> objects = new List<GameObject>();
-    List<LayoutElement> layoutGroups = new List<LayoutElement>();
-    public List<float> sizes = new List<float>();
+    [SerializeField] public List<HorizontalLayoutObject> objects = new List<HorizontalLayoutObject>();
     public Vector2 vertPaddingMultiplier = new Vector2(0f, 0f);
     public Vector2 horPaddingMultiplier = new Vector2(0f, 0f);
     public float spacingDivider = 0f;
@@ -37,12 +82,25 @@ public class HorizontalLayoutEditor : MonoBehaviour
         yield return new WaitForEndOfFrame();
         Reset();
     }
+ #if UNITY_EDITOR
+    private void Update() {
+        if (!Application.isPlaying) {
+            Reset();
+        }
+    }
+ #endif
 
     public void Reset() {
         if (!gameObject.activeInHierarchy) { return; }
         GetObjects();
-        if (transform.childCount != objects.Count + ignoreCount || transform.childCount != sizes.Count + ignoreCount) {
+        if (objects.Count != transform.childCount - ignoreCount) {
             AddAllElements();
+        }
+        for (int i = 0; i < objects.Count; ++i) {
+            if (!objects[i].allGood) {
+                AddAllElements();
+                break;
+            }
         }
         CheckAndUpdateSizes();
         UpdatePadding();
@@ -55,7 +113,7 @@ public class HorizontalLayoutEditor : MonoBehaviour
         horizontal.childControlWidth = controlWidth;
         horizontal.childForceExpandWidth = expandWidth;
 
-        if (lastControlWidth != controlWidth || objects.Count != layoutGroups.Count) {
+        if (lastControlWidth != controlWidth) {
             AddAllElements();
             lastControlWidth = controlWidth;
         }
@@ -65,41 +123,44 @@ public class HorizontalLayoutEditor : MonoBehaviour
         else { parentRect = horizontal.transform.parent.GetComponent<RectTransform>(); }
         float parentSize = Mathf.Min(Screen.height, Screen.width);
 
+        // Set each child to their respective size
         float totalSize = 0f;
         for (int i = 0; i < objects.Count; ++i) {
-            if (objects[i] == null || layoutGroups[i] == null) { continue; }
+            var layoutObject = objects[i];
+            // If no gameObject or layoutGroup, skip it
+            if (!layoutObject.allGood) {
+                Debug.Log("Not all good. Continuing");
+                continue;
+            }
+
             if (controlWidth) {
-                layoutGroups[i].preferredWidth = sizes[i];
-                totalSize += sizes[i];
+                layoutObject.SetPreferredWidth();
             } else {
-                float size = sizes[i] * parentSize;
-                RectTransform childRect = objects[i].GetComponent<RectTransform>();
-                childRect.sizeDelta = new Vector2(size, childRect.sizeDelta.y);
-                totalSize += size;
+                float newSize = layoutObject.SetRealWidth(parentSize);
+                newSize = (newSize < 0f) ? 0f : newSize;
+                totalSize += newSize;
             }
         }
 
+        // Only continue if we want the object to expand with its children sizing
+        if (controlWidth) {
+            horizontal.childControlWidth = true;
+            return;
+        }
+        if (!expandParentSizeToChildrenSize) { return; }
+
+        // Set the holder's size depending on its childrens' sizes
         totalSize += horizontal.padding.left + horizontal.padding.right;
         totalSize += (objects.Count - ignoreCount - 1) * horizontal.spacing;
-        RectTransform rect = gameObject.GetComponent<RectTransform>();
-        if (!horizontal.childControlWidth) {
-            float viewSize = parentRect.rect.width;
 
-            if (viewSize >= totalSize) {
-                totalSize = viewSize;
-            }
-            totalSize -= viewSize * (rectTransform.anchorMax.x - rectTransform.anchorMin.x);
-
-            if (totalSize > 100000f || totalSize < -100000f) {
-                Debug.LogWarning("HorizontalLayoutEditor: Sizes are too " + (totalSize > 100000f ? "LARGE" : "SMALL") + "! Setting to 0");
-                totalSize = 0f;
-            }
-            
-            if (expandParentSizeToChildrenSize) {
-                rect.sizeDelta = new Vector2(totalSize, rect.sizeDelta.y);
-            }
+        float viewportSize = parentRect.rect.width;
+        if (viewportSize > totalSize) {
+            totalSize = viewportSize;
         }
-        lastTotalSize = totalSize;
+        totalSize -= viewportSize * (rectTransform.anchorMax.x - rectTransform.anchorMin.x);
+        totalSize = (totalSize > 50000f || totalSize < 0f) ? 0f : totalSize;
+
+        rectTransform.sizeDelta = new Vector2(totalSize, rectTransform.sizeDelta.y);
     }
 
     // Updates side padding size, depending on screen width
@@ -124,8 +185,7 @@ public class HorizontalLayoutEditor : MonoBehaviour
     // Adds all children of HorizontalLayoutHolder to Objects
     public void AddAllElements() {
         // Resets Objects and Sizes
-        objects = new List<GameObject>();
-        layoutGroups = new List<LayoutElement>();
+        objects = new List<HorizontalLayoutObject>();
         ignoreCount = 0;
 
         RectTransform parentRect;
@@ -145,30 +205,16 @@ public class HorizontalLayoutEditor : MonoBehaviour
             }
             // If ignoreLayout is off, add this object to Objects and its size to Sizes
             if (!layout.ignoreLayout) {
-                objects.Add(child.gameObject);
-                layoutGroups.Add(layout);
+                float newSize = 0.1f;
+                if (horizontal.childControlWidth) {
+                    newSize = layout.preferredHeight;
+                }
+                else if (!dontResetCustomSizesList) {
+                    newSize = child.GetComponent<RectTransform>().rect.width / parentSize;
+                }
+                objects.Add(new HorizontalLayoutObject(child.gameObject, layout, newSize));
             } else {
                 ++ignoreCount;
-            }
-        }
-
-        if (sizes == null) { sizes = new List<float>(); }
-        // Remove extras
-        for (int i = sizes.Count; i > objects.Count; ++i) {
-            sizes.RemoveAt(i-1);
-        }
-        // Add new ones
-        for (int i = 0; i < objects.Count; ++i) {
-            if (i == sizes.Count) { sizes.Add(0.1f); }
-
-            LayoutElement layout = layoutGroups[i];
-            Transform trans = objects[i].transform;
-            if (horizontal.childControlWidth) {
-                sizes[i] = layout.preferredWidth;
-            }
-            else if (!dontResetCustomSizesList) {
-                float size = trans.GetComponent<RectTransform>().rect.width / parentSize;
-                sizes[i] = size;
             }
         }
     }
@@ -181,14 +227,4 @@ public class HorizontalLayoutEditor : MonoBehaviour
             horizontal = gameObject.GetComponent<HorizontalLayoutGroup>();
         }
     }
-
-
-#if UNITY_EDITOR
-    private void Update() {
-        if (!Application.isPlaying) {
-            Reset();
-        }
-    }
-#endif
-
 }}

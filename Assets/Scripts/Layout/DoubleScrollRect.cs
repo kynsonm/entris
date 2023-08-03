@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class DoubleScrollRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    [SerializeField] ScrollRect frontScroll, backScroll;
+    [SerializeField] public ScrollRect frontScroll, backScroll;
     [SerializeField] [Range(0f, 90f)] float angleToTurnOffFront;
     [SerializeField] [Range(0f, 1f)] float distanceToCheckMultiplier;
     bool verticalCheck;

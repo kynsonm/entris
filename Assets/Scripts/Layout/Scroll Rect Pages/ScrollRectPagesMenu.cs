@@ -17,31 +17,35 @@ public class ScrollRectPagesMenu : MonoBehaviour
     [Tooltip("Replaces the separate pages (stacked horizontally) with one page stacked vertically")]
     [SerializeField] bool onePage;
     bool lastShowTabs, lastShowSearch, lastOnePage;
+    [SerializeField] List<float> sizesOfEachArea;
 
-    [Header("Sizing")]
-    [SerializeField] [Min(0f)] float titleSizeMiltiplier = 1f;
-    [SerializeField] [Min(0f)] float tabSizeMultiplier = 1f;
+    [Header("Tab Options")]
+    [SerializeField] Sprite tabBackgroundSprite;
     [Space(5f)]
+    [SerializeField] [Min(0f)] float tabSizeMultiplier = 1f;
     [SerializeField] [Min(0f)] float tabSpacingMultiplier = 0f;
+    [Space(5f)]
     [SerializeField] Vector2 tabVertPaddingMult = new Vector2(0f, 0f);
     [SerializeField] Vector2 tabHorPaddingMult = new Vector2(0f, 0f);
+
+    [Header("Menu Options")]
+    [SerializeField] [Min(0f)] float areaTitleSizeMiltiplier = 1f;
     [Space(5f)]
     [SerializeField] [Min(0f)] float menuSpacingMultiplier = 0f;
+    [Space(5f)]
     [SerializeField] Vector2 menuVertPaddingMult = new Vector2(0f, 0f);
     [SerializeField] Vector2 menuHorPaddingMult = new Vector2(0f, 0f);
-    [Space(5f)]
-    [SerializeField] List<float> sizesOfEachArea;
+
+    [Header("Objects")]
+    [SerializeField] Transform tabsHolder;
+    [SerializeField] Transform tabMenusHolder;
 
     [Header("Prefabs")]
     [SerializeField] GameObject tabPrefab;
     [SerializeField] GameObject tabMenuPrefab;
 
     [Header("Tabs")]
-    [SerializeField] List<TabClass> tabs;
-
-    [Header("Objects")]
-    [SerializeField] Transform tabsHolder;
-    [SerializeField] Transform tabMenusHolder;
+    [SerializeField] public List<TabClass> tabs;
 
 
     // Objects
@@ -96,7 +100,7 @@ public class ScrollRectPagesMenu : MonoBehaviour
         // Set the size of the tabs and menus and titles and stuff
         foreach (TabClass tab in tabs) {
             tab.SetTabWidth(tabParentHeight, tabSizeMultiplier);
-            tab.SetTitleHeight(baseTitleSize, titleSizeMiltiplier);
+            tab.SetTitleHeight(baseTitleSize, areaTitleSizeMiltiplier);
             tab.SetItemAreaSize();
         }
 
@@ -144,6 +148,10 @@ public class ScrollRectPagesMenu : MonoBehaviour
         }
 
         HorizontalOrVerticalLayoutGroup menuLayout = tabMenusHolder.GetComponent<HorizontalOrVerticalLayoutGroup>();
+        if (menuLayout == null) {
+            CheckOptions(true);
+            menuLayout = tabMenusHolder.GetComponent<HorizontalOrVerticalLayoutGroup>();
+        }
         if (menuLayout != null) {
             menuLayout.padding.top = (int)(menuParentWidth * menuVertPaddingMult.x);
             menuLayout.padding.bottom = (int)(menuParentWidth * menuVertPaddingMult.y);
@@ -165,10 +173,13 @@ public class ScrollRectPagesMenu : MonoBehaviour
                 rightPadding = newPadding;
             }
         }
-        menuLayout.padding.left = (int)leftPadding;
-        menuLayout.padding.right = (int)rightPadding;
 
-        return menuLayout.padding.top;
+        if (menuLayout != null) {
+            menuLayout.padding.left = (int)leftPadding;
+            menuLayout.padding.right = (int)rightPadding;
+        }
+
+        return (menuLayout == null) ? -1f : menuLayout.padding.top;
     }
 
 
@@ -182,7 +193,7 @@ public class ScrollRectPagesMenu : MonoBehaviour
             else { sizesOfEachArea.RemoveAt(sizesOfEachArea.Count - 1); }
         }
         for (int i = 0; i < sizesOfEachArea.Count; ++i) {
-            verticalLayoutEditor.sizes[i] = sizesOfEachArea[i];
+            verticalLayoutEditor.objects[i].size = sizesOfEachArea[i];
         }
 
         // Turn things on/off
@@ -196,8 +207,9 @@ public class ScrollRectPagesMenu : MonoBehaviour
                 GameObject newTab = PrefabUtility.InstantiatePrefab(tabPrefab, tabsHolder) as GameObject;
                 TabClass tab = tabs[tabs.Count-1];
                 tab.tabObject = newTab;
-                tab.iconImage = newTab.GetComponentInChildren<Image>();
+                tab.iconImage = newTab.transform.GetChild(0).GetComponent<Image>();
                 tab.imageTheme = newTab.GetComponent<ImageTheme>();
+                tab.backgroundImage = newTab.GetComponent<Image>();
                 tab.tabWidthMultiplier = 1f;
                 tab.icon = tab.iconImage.sprite;
                 tab.color = tab.imageTheme.color;
@@ -224,8 +236,8 @@ public class ScrollRectPagesMenu : MonoBehaviour
                 tab.titleTheme = tab.tabNameTMP.gameObject.GetComponent<TextTheme>();
                 tab.description = tab.tabDescriptionTMP.text;
                 tab.menuRect = newMenu.GetComponent<RectTransform>();
-
-                tab.contentHolderRect = newMenu.transform.Find("Padding").GetComponent<RectTransform>();
+                tab.paddingRect = newMenu.transform.Find("Padding").GetComponent<RectTransform>();
+                tab.doubleScrollRect = tab.paddingRect.GetComponent<DoubleScrollRect>();
             }
             else { GameObject.DestroyImmediate(tabMenusHolder.GetChild(tabs.Count).gameObject); }
         }
@@ -239,22 +251,29 @@ public class ScrollRectPagesMenu : MonoBehaviour
     // Check if tabs/search/pages are on
     // Set them to the correct values if not
     void CheckOptions() {
+        CheckOptions(false);
+    }
+    void CheckOptions(bool overrideChecks) {
         // Switch tabs on/off
-        if (!showTabs && lastShowTabs) {
+        if (!showTabs && (lastShowTabs || overrideChecks)) {
             tabsTransform.gameObject.SetActive(false);
             lastShowTabs = false;
         }
-        if (showTabs && !lastShowTabs) {
+        if (showTabs && (!lastShowTabs || overrideChecks)) {
             tabsTransform.gameObject.SetActive(true);
             lastShowTabs = true;
         }
+        // Set each tab sprite
+        foreach (TabClass tab in tabs) {
+            tab.backgroundImage.sprite = tabBackgroundSprite;
+        }
 
         // Switch search on/off
-        if (!showSearch && lastShowSearch) {
+        if (!showSearch && (lastShowSearch || overrideChecks)) {
             searchTransform.gameObject.SetActive(false);
             lastShowSearch = false;
         }
-        if (showSearch && !lastShowSearch) {
+        if (showSearch && (!lastShowSearch || overrideChecks)) {
             searchTransform.gameObject.SetActive(true);
             lastShowSearch = true;
         }
@@ -270,32 +289,41 @@ public class ScrollRectPagesMenu : MonoBehaviour
         }
 
         // Switch layout to one page or not
-        if (onePage && !lastOnePage) {
+        if (onePage && (!lastOnePage || overrideChecks)) {
             HorizontalLayoutGroup horLayout = tabMenusHolder.GetComponent<HorizontalLayoutGroup>();
-#if UNITY_EDITOR
+ #if UNITY_EDITOR
             Object.DestroyImmediate(horLayout);
-#else
+ #else
             if (Application.isPlaying) {
                 Object.Destroy(horLayout);
             } else {
                 Object.DestroyImmediate(horLayout);
             }
-#endif
-            VerticalLayoutGroup vertLayout = tabMenusHolder.gameObject.AddComponent<VerticalLayoutGroup>();
+ #endif
+            VerticalLayoutGroup vertLayout = tabMenusHolder.gameObject.GetComponent<VerticalLayoutGroup>();
+            if (vertLayout == null) {
+                vertLayout = tabMenusHolder.gameObject.AddComponent<VerticalLayoutGroup>();
+            }
+            //vertLayout.childControlWidth = true;
             lastOnePage = onePage;
         }
-        if (!onePage && lastOnePage) {
+        if (!onePage && (lastOnePage || overrideChecks)) {
             VerticalLayoutGroup vertLayout = tabMenusHolder.GetComponent<VerticalLayoutGroup>();
-#if UNITY_EDITOR
+ #if UNITY_EDITOR
             Object.DestroyImmediate(vertLayout);
-#else
+ #else
             if (Application.isPlaying) {
                 Object.Destroy(vertLayout);
             } else {
                 Object.DestroyImmediate(vertLayout);
             }
-#endif
-            HorizontalLayoutGroup horLayout = tabMenusHolder.gameObject.AddComponent<HorizontalLayoutGroup>();
+ #endif
+
+            HorizontalLayoutGroup horLayout = tabMenusHolder.gameObject.GetComponent<HorizontalLayoutGroup>();
+            if (horLayout == null) {
+                horLayout = tabMenusHolder.gameObject.AddComponent<HorizontalLayoutGroup>();
+            }
+            horLayout.childControlHeight = true;
             lastOnePage = onePage;
         }
     }
@@ -334,7 +362,7 @@ public class ScrollRectPagesMenu : MonoBehaviour
     // -- Tab icon, color
     // And the objects for each thing
     [System.Serializable]
-    class TabClass {
+    public class TabClass {
         // Options
         public string name;
         public string description;
@@ -354,16 +382,28 @@ public class ScrollRectPagesMenu : MonoBehaviour
         // Objects
         [HideInInspector] public GameObject tabObject, menuObject;
         [HideInInspector] public TMP_Text tabNameTMP, tabDescriptionTMP;
-        [HideInInspector] public Image iconImage;
+        [HideInInspector] public Image iconImage, backgroundImage;
         [HideInInspector] public ImageTheme imageTheme;
         [HideInInspector] public TextTheme titleTheme;
         [HideInInspector] public Button iconButton;
+        [HideInInspector] public DoubleScrollRect doubleScrollRect;
 
-        [HideInInspector] public RectTransform contentHolderRect;
-        [HideInInspector] public RectTransform tabRect, menuRect, titleRect;
+        [HideInInspector] public RectTransform tabRect, menuRect, titleRect, paddingRect;
 
+
+        // Sets each objects name, text, sprite, and color
         public void Reset() { Reset(false); }
         public void Reset(bool overrideEqualityChecks) {
+            // Set the <backScroll> of the DoubleScrollRect
+            if (doubleScrollRect != null) {
+                int count = 0;
+                Transform parent = doubleScrollRect.transform.parent;
+                while (parent != null && doubleScrollRect.backScroll == null && count < 25) {
+                    doubleScrollRect.backScroll = parent.GetComponent<ScrollRect>();
+                    parent = parent.parent;
+                    ++count;
+                }
+            }
             // Just set everything w/out checking if things are the same
             if (overrideEqualityChecks) {
                 if (tabObject != null) { tabObject.name = name + " Tab"; }
@@ -398,33 +438,39 @@ public class ScrollRectPagesMenu : MonoBehaviour
             }
         }
 
+        // Set the width of the tab
         public void SetTabWidth(float tabAreaHeight, float tabSizeMultiplier) {
             float size = tabSizeMultiplier * tabWidthMultiplier * tabAreaHeight;
             tabRect.sizeDelta = new Vector2(size, tabRect.sizeDelta.y);
         }
+
+        // Set the size of the holder
         public void SetItemAreaSize() {
-            // TODO:  WHY DOESNT THIS WORK???
-            RectTransform child = contentHolderRect.GetChild(0).GetComponent<RectTransform>();
-            float height = RectTransformSizing.HeightOfChildren(child);
-            height = (height < 0.01f) ? 0f : height;
-            contentHolderRect.sizeDelta = new Vector2(0f, height);
-            contentHolderRect.anchoredPosition = new Vector2(0f, 0f);
+            // Implement if necessary
         }
+
+        // Set the size of the menu and its padding (child)
         public void SetMenuSize(float menuAreaSize, bool isVertical) {
             float size = menuSizeMultiplier * menuAreaSize;
             if (!isVertical) {
+                // Set the menu with to <size> and padding to <height>
+                float parentSize = menuRect.GetComponent<RectTransform>().rect.height;
+                float titleSize = titleRect.rect.height;
                 menuRect.sizeDelta = new Vector2(size, menuRect.sizeDelta.y);
-                RectTransformSizing.SetHeightToHeightOfChildren(menuRect.transform, false);
+                paddingRect.sizeDelta = new Vector2(paddingRect.sizeDelta.x, parentSize - titleSize);
                 return;
             }
             RectTransformSizing.SetHeightToHeightOfChildren(menuRect.transform, false);
         }
+
+        // Set the size of the menus title
         public void SetTitleHeight(float baseTitleSize, float titleSizeMultiplier) {
             float size = baseTitleSize * titleSizeMultiplier * titleHeightMultiplier;
             titleRect.sizeDelta = new Vector2(titleRect.sizeDelta.x, size);
             titleRect.anchoredPosition = new Vector2(0f, 0f);
         }
 
+        // Set the tab button's click
         public void SetButtonClick
         (RectTransform menuHolder, RectTransform menuHolderParent, float paddingTop, float selectionTime, bool isOnePage)
         {
@@ -468,6 +514,7 @@ public class ScrollRectPagesMenu : MonoBehaviour
             });
         }
 
+        // Returns a string of information about the tab object
         public override string ToString() {
             string str = "";
             str += $"Name = {name}\n";

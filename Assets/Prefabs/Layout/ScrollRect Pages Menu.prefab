@@ -457,23 +457,24 @@ MonoBehaviour:
   showTabs: 1
   showSearch: 1
   onePage: 0
-  titleSizeMiltiplier: 1
+  sizesOfEachArea:
+  - 850
+  - 500
+  - 8000
+  tabBackgroundSprite: {fileID: 21300000, guid: 6e56e861453942746869128a6a99869c, type: 3}
   tabSizeMultiplier: 1
   tabSpacingMultiplier: 0
   tabVertPaddingMult: {x: 0, y: 0}
   tabHorPaddingMult: {x: 0, y: 0}
+  areaTitleSizeMiltiplier: 1
   menuSpacingMultiplier: 0.1
-  menuVertPaddingMult: {x: 0.04, y: 0.04}
+  menuVertPaddingMult: {x: 0.01, y: 0}
   menuHorPaddingMult: {x: 0, y: 0}
-  sizesOfEachArea:
-  - 1000
-  - 500
-  - 8000
+  tabsHolder: {fileID: 8097719040191187982}
+  tabMenusHolder: {fileID: 8097719040911511502}
   tabPrefab: {fileID: 1627624839219529554, guid: c57d3c3472f6f5d46a50a1e1e24519dc, type: 3}
   tabMenuPrefab: {fileID: 8560642253406971410, guid: 7ea78c6233b1bf943952d07e05b7c04b, type: 3}
   tabs: []
-  tabsHolder: {fileID: 8097719040191187982}
-  tabMenusHolder: {fileID: 8097719040911511502}
 --- !u!114 &8097719039633831771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,13 +517,12 @@ MonoBehaviour:
   expandHeight: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 8097719040808743333}
-  - {fileID: 8097719040228347272}
-  - {fileID: 8097719039570497245}
-  sizes:
-  - 1000
-  - 500
-  - 8000
+  - gameObject: {fileID: 0}
+    size: 0
+  - gameObject: {fileID: 0}
+    size: 0
+  - gameObject: {fileID: 0}
+    size: 0
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 0
@@ -995,9 +995,8 @@ MonoBehaviour:
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 8097719040605958574}
-  sizes:
-  - 3.6041667
+  - gameObject: {fileID: 0}
+    size: 0
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0.25, y: 0.25}
   spacingDivider: 0
@@ -1264,9 +1263,8 @@ MonoBehaviour:
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 8097719040083803689}
-  sizes:
-  - 1.8055556
+  - gameObject: {fileID: 0}
+    size: 0
   vertPaddingMultiplier: {x: 0.05, y: 0.05}
   horPaddingMultiplier: {x: 0.05, y: 0.05}
   spacingDivider: 0
@@ -1376,13 +1374,12 @@ MonoBehaviour:
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 8097719041050995196}
-  - {fileID: 8097719039649323868}
-  - {fileID: 8097719039727858883}
-  sizes:
-  - 500
-  - 5000
-  - 500
+  - gameObject: {fileID: 8097719041050995196}
+    size: 500
+  - gameObject: {fileID: 8097719039649323868}
+    size: 4000
+  - gameObject: {fileID: 8097719039727858883}
+    size: 500
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 80
@@ -1426,7 +1423,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8097719040911511502}
-  - component: {fileID: 8097719040911511505}
   m_Layer: 5
   m_Name: Menus Holder
   m_TagString: Untagged
@@ -1454,32 +1450,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &8097719040911511505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8097719040911511503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 41
-    m_Bottom: 41
-  m_ChildAlignment: 0
-  m_Spacing: 103
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!1 &8097719040981003338
 GameObject:
   m_ObjectHideFlags: 0
