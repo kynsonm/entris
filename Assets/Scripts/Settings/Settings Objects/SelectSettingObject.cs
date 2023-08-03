@@ -6,9 +6,11 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
+namespace PlayerInfo.Settings {
+
 [ExecuteInEditMode]
 
-public class SelectSetting : SettingObject
+public class SelectSettingObject : SettingObject
 {
     int value;
     public UnityEvent<int> valueChangeEvents;
@@ -45,7 +47,7 @@ public class SelectSetting : SettingObject
             Option option = options[i];
             GameObject optionObject = optionParent.GetChild(i).gameObject;
             option.gameObject = optionObject;
-            option.Reset(this);
+            //option.Reset(this);
         }
 
         for (int i = 0; i < verticalEditor.objects.Count; ++i) {
@@ -173,7 +175,7 @@ public class SelectSetting : SettingObject
             image = toCopy.image;
             text = toCopy.text;
         }
-
+/*
         public void Reset(SelectSetting selectSetting) {
             if (!dontUpdateLooks && GetLooksObjects()) {
                 image.sprite = icon;
@@ -192,6 +194,7 @@ public class SelectSetting : SettingObject
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => { selectSetting.valueChangeEvents.Invoke(value); });
         }
+*/
 
         bool GetLooksObjects() {
             if (gameObject == null) {
@@ -235,4 +238,4 @@ public class SelectSetting : SettingObject
         }
     }
 
-}
+}}

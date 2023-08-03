@@ -5,9 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
+namespace PlayerInfo.Settings
+{
+
 [ExecuteInEditMode]
 
-public class ToggleSetting : SettingObject
+public class ToggleSettingObject : SettingObject
 {
     bool value;
     public UnityEvent<bool> valueChangeEvents;
@@ -112,4 +115,4 @@ public class ToggleSetting : SettingObject
     }
 #endif
 
-}
+}}

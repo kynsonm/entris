@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Achievements;
+using PlayerInfo.Achievements;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-namespace Achievements {
+namespace PlayerInfo.Achievements {
 
 public class AchievementObject : MonoBehaviour
 {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Achievements;
+using PlayerInfo.Achievements;
 
 public class AchievementManager : MonoBehaviour
 {

@@ -5,11 +5,11 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
-namespace UnityEngine.UI {
+namespace PlayerInfo.Settings {
 
 [ExecuteInEditMode]
 
-public class SliderSetting : SettingObject
+public class SliderSettingObject : SettingObject
 {
     float value;
     public UnityEvent<float> valueChangeEvents;

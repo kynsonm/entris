@@ -50,12 +50,7 @@ public static class Settings
         set(nameof(dynamicControls), dynamicControls);
 
         // Save each SettingsMenu
-        // TODO: Is this enough? I'm not sure lol
-        /*
-        foreach (var menu in GameObject.FindObjectsOfType<SettingsMenu>()) {
-            menu.Save();
-        }
-        */
+        
     }
 
     // Set settings to their initial values

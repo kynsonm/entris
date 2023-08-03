@@ -5,12 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
-[ExecuteInEditMode]
+namespace PlayerInfo.Settings {
 
-[System.Serializable]
-public class SettingsGroup {
-    [SerializeField] public List<SettingObject> settings;
-}
+[ExecuteInEditMode]
 
 public class SettingObject : MonoBehaviour
 {
@@ -27,7 +24,7 @@ public class SettingObject : MonoBehaviour
 
     [SerializeField] UnityEvent loadEventBackup;
 
-    //SettingsMenu settingsMenu;
+    SettingsMenu settingsMenu;
     TMP_Text titleText;
 
     [HideInInspector] public float titleSize { get; private set; }
@@ -50,7 +47,6 @@ public class SettingObject : MonoBehaviour
         titleText.text = settingName;
 
         /*
-
         // Title and setting size
         float size = gameObject.GetComponent<RectTransform>().rect.height;
         RectTransform titleRect = titleText.transform.parent.GetComponent<RectTransform>();
@@ -64,7 +60,6 @@ public class SettingObject : MonoBehaviour
         height = size - (Screen.height * settingsMenu.settingMenuTitleSizeMultiplier);
         settingRect.sizeDelta = new Vector2(0f, height);
         settingRect.anchoredPosition = new Vector2(0f, 0f);
-
         */
     }
 
@@ -131,4 +126,4 @@ public class SettingObject : MonoBehaviour
         }
         return allGood;
     }
-}
+}}

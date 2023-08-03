@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-namespace Achievements {
+namespace PlayerInfo.Achievements {
 
     // Enum for each type of achievement
     [System.Serializable]

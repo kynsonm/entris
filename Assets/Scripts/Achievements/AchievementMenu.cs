@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Achievements {
+namespace PlayerInfo.Achievements {
 
 public class AchievementMenu : MonoBehaviour
 {

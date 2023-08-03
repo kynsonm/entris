@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlayerInfo.Settings;
 
 public class SettingsManager : MonoBehaviour
 {
-    [SerializeField] public List<SettingsGroup> settings;
-
     void Awake() {
         Settings.Load();
         CheckSettings();

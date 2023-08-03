@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace PlayerInfo.Settings {
+
 public class SettingsMenu : MonoBehaviour
 {
     // Objects
@@ -30,7 +32,7 @@ public class SettingsMenu : MonoBehaviour
 
     // 
     public void Reset() {
-        DestroySettings();
+        //DestroySettings();
         CreateSettings();
     }
 
@@ -52,24 +54,6 @@ public class SettingsMenu : MonoBehaviour
         if (scrollRectPages == null) {
             return;
         }
-
-        // Get the achievements data from the manager
-        List<SettingsGroup> settings = new List<SettingsGroup>(); // IDK!!
-        if (settings == null) {
-            Debug.Log("No achievements. Returning");
-            return;
-        }
-
-        var tabs = scrollRectPages.tabs;
-
-        // Make new settings for each
-        for (int i = 0; i < settings.Count; ++i) {
-            if (i > tabs.Count - 1) { break; }
-            Transform holder = SettingHolder(tabs[i]);
-
-            SettingsGroup group = settings[i];
-            
-        }
     }
 
 
@@ -84,4 +68,4 @@ public class SettingsMenu : MonoBehaviour
 
         return holder;
     }
-}
+}}
