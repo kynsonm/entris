@@ -7,14 +7,17 @@ namespace PlayerInfo.Settings {
 
 public class SettingsMenu : MonoBehaviour
 {
-    // Objects
-    SettingsManager settingsManager;
+    [Header("Objects")]
     [SerializeField] ScrollRectPagesMenu scrollRectPages;
 
-    // Prefabs
-    [SerializeField] GameObject toggleSettingPrefab;
-    [SerializeField] GameObject sliderSettingPrefab;
-    [SerializeField] GameObject selectSettingPrefab;
+    [Header("Sizing")]
+    public float titleSizeMultiplier;
+    public float spacingSizeMultiplier;
+
+    [Header("Prefabs")]
+    [SerializeField] public GameObject toggleSettingPrefab;
+    [SerializeField] public GameObject sliderSettingPrefab;
+    [SerializeField] public GameObject selectSettingPrefab;
 
 
     // Monobehaviour stuff
@@ -30,16 +33,15 @@ public class SettingsMenu : MonoBehaviour
     }
 
 
-    // 
+    // Destroy and create settings
     public void Reset() {
-        //DestroySettings();
+        DestroySettings();
         CreateSettings();
     }
 
+    // Delete all the current settings in ScrollRectPages
     void DestroySettings() {
-        if (scrollRectPages == null) {
-            return;
-        }
+        if (!allGood())  { return; }
         foreach (var tab in scrollRectPages.tabs) {
             Transform holder = SettingHolder(tab);
             if (holder == null) { continue; }
@@ -50,12 +52,38 @@ public class SettingsMenu : MonoBehaviour
         }
     }
 
+    // Create all the current settings in ScrollRectPages
     void CreateSettings() {
-        if (scrollRectPages == null) {
+        if (!allGood()) { return; }
+
+        var settingPages = SettingsManager.settings();
+        if (settingPages == null) {
+            Debug.Log("No settings found. Returning");
             return;
         }
-    }
 
+        var tabs = scrollRectPages.tabs;
+
+        for (int i = 0; i < settingPages.Count; ++i) {
+            if (i > tabs.Count - 1) { break; }
+            Transform holder = SettingHolder(tabs[i]);
+
+            foreach (var setting in settingPages[i].settings) {
+                // Creates the setting and also resets it
+                GameObject settingObj = setting.CreateObject(this, holder);
+                
+                // do something? idk
+            }
+        }
+    }
+    
+
+    bool allGood() {
+        if (scrollRectPages == null) {
+            return false;
+        }
+        return true;
+    }
 
     Transform SettingHolder(ScrollRectPagesMenu.TabClass tab) {
         return SettingHolder(tab.paddingRect);

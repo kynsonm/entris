@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6007736310273855936}
   - component: {fileID: 6007736310273855951}
-  - component: {fileID: 6007736310273855950}
+  - component: {fileID: 7038152390834496969}
   m_Layer: 5
-  m_Name: Options Setting
+  m_Name: Select Setting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &6007736310273855950
+--- !u!114 &7038152390834496969
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,20 +69,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 6007736310273855937}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f27366bc52dbd8c428dd7ee6915dbe85, type: 3}
+  m_Script: {fileID: 11500000, guid: 97a3c097850e3a844adaabf0f8e5a74c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingName: Select Setting
-  settingInfo: Select setting info
-  settingColor: 1
-  verticalEditor: {fileID: 0}
-  valueChangeEvents:
-    m_PersistentCalls:
-      m_Calls: []
-  options: []
-  optionPrefab: {fileID: 4000626656805769526, guid: 792434bed2c5a4b4c9212849075ca688, type: 3}
-  gridConstraintType: 0
-  constraintCount: 6
+  settingsMenu: {fileID: 0}
+  setting:
+    name: 
+    info: 
+    color: 0
+    loadValueEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    value: 0
+    valueChangeEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    options: []
+    optionPrefab: {fileID: 0}
+    gridConstraintType: 0
+    constraintCount: 0
 --- !u!1 &6007736310398827916
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +205,8 @@ MonoBehaviour:
   expandChildrenToHeight: 0
   expandParentSizeToChildrenSize: 1
   dontUpdateConstraintCount: 1
-  cellSizeMultiplier: 1
+  cellSizeXMultiplier: 1
+  cellSizeYMultiplier: 1
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDividers: {x: 0, y: 0}
@@ -356,7 +362,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 6500
+  m_PreferredWidth: 4000
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -629,11 +635,11 @@ MonoBehaviour:
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 6007736312119333869}
-  - {fileID: 6007736312133991779}
-  sizes:
-  - 6500
-  - 500
+  - gameObject: {fileID: 6007736312119333869}
+    size: 4000
+  - gameObject: {fileID: 6007736312133991779}
+    size: 500
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 0
+  dontResetCustomSizesList: 0

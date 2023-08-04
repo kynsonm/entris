@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_SizeDelta: {x: -57.119987, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &686660411576624741
 GameObject:
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -379,7 +379,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Slider Setting Name
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 683c16fb2a915584babde4ca012e3b78, type: 2}
   m_sharedMaterial: {fileID: 9223328991729849324, guid: 683c16fb2a915584babde4ca012e3b78, type: 2}
@@ -406,12 +406,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33
+  m_fontSize: 27
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 33
+  m_fontSizeMax: 27
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -463,7 +463,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 6000
+  m_PreferredWidth: 4000
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -573,14 +573,14 @@ MonoBehaviour:
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 686660411711579142}
-  - {fileID: 686660411576624741}
-  sizes:
-  - 6500
-  - 500
+  - gameObject: {fileID: 686660411711579142}
+    size: 4000
+  - gameObject: {fileID: 686660411576624741}
+    size: 500
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 0
+  dontResetCustomSizesList: 0
 --- !u!1 &686660412067029676
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,8 +615,8 @@ RectTransform:
   m_Father: {fileID: 686660411663363952}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -641,7 +641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.34433964, g: 0.34433964, b: 0.34433964, a: 1}
+  m_Color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -657,7 +657,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 17.29489
+  m_PixelsPerUnitMultiplier: 6.485583
 --- !u!114 &686660412067029672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateColorOfImage: 1
-  color: 1
+  color: 0
   alpha: 1
   useMixedColor: 1
   mixedColor: 0
@@ -688,7 +688,7 @@ GameObject:
   m_Component:
   - component: {fileID: 686660412117733062}
   - component: {fileID: 686660412117733063}
-  - component: {fileID: 686660412117733060}
+  - component: {fileID: 4605592064129012701}
   m_Layer: 5
   m_Name: Slider Setting
   m_TagString: Untagged
@@ -738,7 +738,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &686660412117733060
+--- !u!114 &4605592064129012701
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -747,18 +747,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 686660412117733081}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d7267751f5b2624e8a4f16de559b741, type: 3}
+  m_Script: {fileID: 11500000, guid: 210d9130f46c6a448a5daeccc0a785e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingName: Slider Setting Name
-  settingInfo: Slider setting info
-  settingColor: 1
-  verticalEditor: {fileID: 0}
-  valueChangeEvents:
-    m_PersistentCalls:
-      m_Calls: []
-  minValue: 0
-  maxValue: 1
+  settingsMenu: {fileID: 0}
+  setting:
+    name: 
+    info: 
+    color: 0
+    loadValueEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    value: 0
+    valueChangeEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    minValue: 0
+    maxValue: 1
 --- !u!1 &686660412234719510
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,7 +801,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 57.68, y: 0}
+  m_SizeDelta: {x: 105.84, y: 25.49554}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &686660412234719509
 CanvasRenderer:
@@ -819,7 +824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+  m_Color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -849,7 +854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateColorOfImage: 1
-  color: 1
+  color: 0
   alpha: 1
   useMixedColor: 0
   mixedColor: 9
@@ -888,10 +893,10 @@ RectTransform:
   m_Father: {fileID: 686660411663363952}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &686660412884107105
 GameObject:
@@ -930,8 +935,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 28.559994, y: 0}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &686660412884107116
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -953,7 +958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.49952832, g: 0.49952832, b: 0.49952832, a: 1}
+  m_Color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -969,7 +974,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 17.29489
+  m_PixelsPerUnitMultiplier: 11.579375
 --- !u!114 &686660412884107117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -983,7 +988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateColorOfImage: 1
-  color: 1
+  color: 0
   alpha: 1
   useMixedColor: 1
   mixedColor: 0

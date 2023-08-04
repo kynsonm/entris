@@ -185,7 +185,10 @@ public class ScrollRectPagesMenu : MonoBehaviour
 
     // Makes sure all tabs and menu objects are created and assigned to their <TabClass>
     void ResetTabAndMenuObjects() {
-        if (!CheckObjects()) { return; }
+        if (!CheckObjects()) {
+            Debug.Log("Not creating new tabs");
+            return;
+        }
 
         // Check and set size of <sizesOfEachArea>
         if (sizesOfEachArea.Count != 3) {
@@ -265,6 +268,7 @@ public class ScrollRectPagesMenu : MonoBehaviour
         }
         // Set each tab sprite
         foreach (TabClass tab in tabs) {
+            if (tab.backgroundImage == null) { continue; }
             tab.backgroundImage.sprite = tabBackgroundSprite;
         }
 

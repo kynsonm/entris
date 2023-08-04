@@ -11,10 +11,7 @@ namespace PlayerInfo.Settings {
 
 public class SliderSettingObject : SettingObject
 {
-    float value;
-    public UnityEvent<float> valueChangeEvents;
-
-    [SerializeField] float minValue, maxValue;
+    public SliderSetting setting;
 
     Slider slider;
     SliderTheme sliderTheme;
@@ -26,41 +23,45 @@ public class SliderSettingObject : SettingObject
         yield return new WaitForEndOfFrame();
         Reset();
     }
+ #if UNITY_EDITOR
+    void Update() {
+        if (!Application.isPlaying) { Reset(); }
+    }
+ #endif
+
 
     // Set each objects stuffff
     new public void Reset() {
         if (!GetObjects()) { return; }
         base.Reset();
+        gameObject.name = (setting.name == "") ? "Slider Setting" : setting.name;
+        titleText.text = setting.name;
 
         // Slider info
-        slider.minValue = minValue;
-        slider.maxValue = maxValue;
+        slider.minValue = setting.minValue;
+        slider.maxValue = setting.maxValue;
 
         // Setting info
         slider.onValueChanged.RemoveAllListeners();
-        slider.onValueChanged.AddListener((float value) => { valueChangeEvents.Invoke(value); });
+        slider.onValueChanged.AddListener((float value) => { setting.valueChangeEvent.Invoke(value); });
 
         if (sliderTheme == null) { return; }
-        sliderTheme.backgroundColor = settingColor;
-        sliderTheme.fillColor = settingColor;
-        sliderTheme.knobColor = settingColor;
+        sliderTheme.backgroundColor = setting.color;
+        sliderTheme.fillColor = setting.color;
+        sliderTheme.knobColor = setting.color;
         sliderTheme.ResetColor();
     }
 
 
     // ----- GET AND SET VALUE -----
 
-    override public string ValueToString() {
-        valueString = value.ToString();
-        return valueString;
-    }
-    override public void SetValue(string value) {
+    public void SetValue(string value) {
         bool isFloat = float.TryParse(value, out float temp);
         if (!isFloat) {
             Debug.LogWarning($"SliderSetting: Inputted string \"{value}\" is not a float. Returning.");
             return;
         }
-        this.value = temp;
+        setting.value = temp;
         Reset();
         return;
     }
@@ -70,6 +71,9 @@ public class SliderSettingObject : SettingObject
     // Make sure each object is good
     bool GetObjects() {
         bool allGood = true;
+        if (setting == null) {
+            allGood = false;
+        }
         if (slider == null) {
             slider = gameObject.transform.GetComponentInChildren<Slider>();
             if (slider == null) {
@@ -83,11 +87,4 @@ public class SliderSettingObject : SettingObject
         return allGood;
     }
 
-#if UNITY_EDITOR
-    void Update() {
-        if (!Application.isPlaying) { Reset(); }
-    }
-#endif
-
-}
-}
+}}

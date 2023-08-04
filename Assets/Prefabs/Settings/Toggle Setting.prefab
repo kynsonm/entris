@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -197,10 +197,10 @@ RectTransform:
   m_Father: {fileID: 2778104143214058532}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 47.52, y: -31.200005}
-  m_SizeDelta: {x: 95.04, y: 62.40001}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2778104142261385476
 CanvasRenderer:
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3663ad5de8f190e4e87baaabe5dae93a, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -297,10 +297,10 @@ RectTransform:
   m_Father: {fileID: 2778104143214058532}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 386.88, y: -31.200005}
-  m_SizeDelta: {x: 570.24, y: 62.40001}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2778104142286005004
 CanvasRenderer:
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 3000
+  m_PreferredWidth: 4000
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -462,7 +462,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -34.419365}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 68.83873}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2778104142708171007
@@ -507,14 +507,14 @@ MonoBehaviour:
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 2778104144021665412}
-  - {fileID: 2778104142182970128}
-  sizes:
-  - 6500
-  - 500
+  - gameObject: {fileID: 2778104144021665412}
+    size: 4000
+  - gameObject: {fileID: 2778104142182970128}
+    size: 500
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 0
+  dontResetCustomSizesList: 0
 --- !u!114 &2778104142708171005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,7 +545,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2778104143031803861}
   - component: {fileID: 2778104143031803862}
-  - component: {fileID: 2778104143031803863}
+  - component: {fileID: 2497849744432599799}
   m_Layer: 5
   m_Name: Toggle Setting
   m_TagString: Untagged
@@ -595,7 +595,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &2778104143031803863
+--- !u!114 &2497849744432599799
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -604,19 +604,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 2778104143031803860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 183dff1984ace114080a5ab08513cce8, type: 3}
+  m_Script: {fileID: 11500000, guid: fa04820440a26ab43b51a861d67e53a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingName: Toggle Setting Name
-  settingInfo: Toggle info stuff
-  settingColor: 1
-  valueChangeEvents:
-    m_PersistentCalls:
-      m_Calls: []
-  onMessage: Turn off
-  offMessage: Turn on
-  iconOn: {fileID: 21300000, guid: 343cf629becb237478eec7e68dfd3947, type: 3}
-  iconOff: {fileID: 21300000, guid: 3663ad5de8f190e4e87baaabe5dae93a, type: 3}
+  settingsMenu: {fileID: 0}
+  setting:
+    name: 
+    info: 
+    color: 0
+    loadValueEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    value: 0
+    valueChangeEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    onMessage: 
+    offMessage: 
+    onIcon: {fileID: 0}
+    offIcon: {fileID: 0}
+  onOffImage: {fileID: 2778104142261385475}
+  activateButton: {fileID: 2778104142286005002}
+  buttonText: {fileID: 2778104143533159620}
 --- !u!1 &2778104143214058531
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,14 +729,14 @@ MonoBehaviour:
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 2778104142261385472}
-  - {fileID: 2778104142286005046}
-  sizes:
-  - 500
-  - 3000
+  - gameObject: {fileID: 2778104142261385472}
+    size: 500
+  - gameObject: {fileID: 2778104142286005046}
+    size: 4000
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 100
+  dontResetCustomSizesList: 0
 --- !u!1 &2778104143533159617
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +804,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Turn on
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 683c16fb2a915584babde4ca012e3b78, type: 2}
   m_sharedMaterial: {fileID: 9223328991729849324, guid: 683c16fb2a915584babde4ca012e3b78, type: 2}
@@ -822,12 +831,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.85
+  m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 50.85
+  m_fontSizeMax: 24
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -955,7 +964,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Toggle Setting Name
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 683c16fb2a915584babde4ca012e3b78, type: 2}
   m_sharedMaterial: {fileID: 9223328991729849324, guid: 683c16fb2a915584babde4ca012e3b78, type: 2}
@@ -982,12 +991,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.074997
+  m_fontSize: 27
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 42.074997
+  m_fontSizeMax: 27
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -1039,7 +1048,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 6000
+  m_PreferredWidth: 4000
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1

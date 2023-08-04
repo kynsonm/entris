@@ -5,23 +5,17 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
-namespace PlayerInfo.Settings
-{
+namespace PlayerInfo.Settings {
 
 [ExecuteInEditMode]
 
 public class ToggleSettingObject : SettingObject
 {
-    bool value;
-    public UnityEvent<bool> valueChangeEvents;
+    public ToggleSetting setting;
 
-    [SerializeField] string onMessage, offMessage;
-    [SerializeField] Sprite iconOn, iconOff;
-
-    Image onOffImage;
-    Button activateButton;
-    TMP_Text buttonText;
-
+    [SerializeField] Image onOffImage;
+    [SerializeField] Button activateButton;
+    [SerializeField] TMP_Text buttonText;
 
     // Start is called before the first frame update
     void OnEnable() { StartCoroutine(Start()); }
@@ -29,11 +23,19 @@ public class ToggleSettingObject : SettingObject
         yield return new WaitForEndOfFrame();
         Reset();
     }
+ #if UNITY_EDITOR
+    void Update() {
+        if (!Application.isPlaying) { Reset(); }
+    }
+ #endif
+
 
     // Set each objects stuffff
     new public void Reset() {
         if (!GetObjects()) { return; }
         base.Reset();
+        gameObject.name = (setting.name == "") ? "Toggle Setting" : setting.name;
+        titleText.text = setting.name;
 
         // Setting info
         activateButton.onClick.RemoveAllListeners();
@@ -42,50 +44,51 @@ public class ToggleSettingObject : SettingObject
         ResetSetting();
     }
 
+    // Turning on and off the setting
     public void ActivateSetting() {
-        value = !value;
+        setting.value = !setting.value;
+        setting.valueChangeEvent.Invoke(setting.value);
         ResetSetting();
     }
     public void ResetSetting() {
-        if (value) { TurnOn(); }
+        if (setting.value) { TurnOn(); }
         else { TurnOff(); }
     }
     void TurnOn() {
-        value = true;
-        buttonText.text = onMessage;
-        onOffImage.sprite = iconOn;
-        valueChangeEvents.Invoke(value);
+        buttonText.text = setting.onMessage;
+        onOffImage.sprite = setting.onIcon;
     }
     void TurnOff() {
-        value = false;
-        buttonText.text = offMessage;
-        onOffImage.sprite = iconOff;
-        valueChangeEvents.Invoke(value);
+        buttonText.text = setting.offMessage;
+        onOffImage.sprite = setting.offIcon;
     }
 
 
     // ----- GET AND SET VALUE -----
 
-    override public string ValueToString() {
-        valueString = (value ? 1 : 0).ToString();
-        return valueString;
-    }
-    override public void SetValue(string value) {
+    public void SetValue(string value) {
         bool isInt = int.TryParse(value, out int temp);
         if (!isInt || (temp != 1 && temp != 0)) {
             Debug.LogWarning($"ToggleSetting: Inputted string \"{value}\" is not a 1 or a 0. Returning.");
             return;
         }
-        this.value = temp == 1;
+        setting.value = temp == 1;
         Reset();
+
+        global::Settings.Save();
+
         return;
     }
+
 
     // ----- UTILITIES -----
 
     // Make sure each object is good
     bool GetObjects() {
         bool allGood = true;
+        if (setting == null) {
+            allGood = false;
+        }
         if (activateButton == null) {
             activateButton = gameObject.transform.Find("Setting").GetComponentInChildren<Button>();
             if (activateButton == null) {
@@ -108,11 +111,5 @@ public class ToggleSettingObject : SettingObject
         }
         return allGood;
     }
-
-#if UNITY_EDITOR
-    void Update() {
-        if (!Application.isPlaying) { Reset(); }
-    }
-#endif
 
 }}

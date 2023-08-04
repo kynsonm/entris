@@ -12,18 +12,9 @@ namespace PlayerInfo.Settings {
 
 public class SelectSettingObject : SettingObject
 {
-    int value;
-    public UnityEvent<int> valueChangeEvents;
+    public SelectSetting setting;
 
-    [Header("Option Settings")]
-    [SerializeField] List<Option> options;
-    [SerializeField] GameObject optionPrefab;
-    Sprite defaultIcon;
     Transform optionParent;
-
-    [Header("Grid Setup")]
-    [SerializeField] GridLayoutEditor.ConstraintType gridConstraintType;
-    [SerializeField] [Min(0)] int constraintCount;
     GridLayoutEditor gridEditor;
 
 
@@ -38,21 +29,15 @@ public class SelectSettingObject : SettingObject
     new public void Reset() {
         if (!GetObjects()) { return; }
         base.Reset();
+        gameObject.name = (setting.name == "") ? "Select Setting" : setting.name;
+        titleText.text = setting.name;
 
         AdjustOptionObjects();
         SetupGridLayout();
 
         // Setting info
-        for (int i = 0; i < options.Count; ++i) {
-            Option option = options[i];
-            GameObject optionObject = optionParent.GetChild(i).gameObject;
-            option.gameObject = optionObject;
-            //option.Reset(this);
-        }
-
-        for (int i = 0; i < verticalEditor.objects.Count; ++i) {
-            if (!verticalEditor.objects[i].Equals(gameObject)) { continue; }
-            verticalEditor.objects[i].size = 1.05f * (titleSize + gridEditor.size) / (float)Mathf.Min(Screen.height, Screen.width);
+        for (int i = 0; i < setting.options.Count; ++i) {
+            
         }
     }
 
@@ -60,49 +45,44 @@ public class SelectSettingObject : SettingObject
     void AdjustOptionObjects() {
         Transform parent = transform.Find("Setting").Find("Grid");
         // Destroy whats already there
-        for (int i = parent.childCount; i > options.Count; --i) {
-#if UNITY_EDITOR
+        for (int i = parent.childCount; i > setting.options.Count; --i) {
+ #if UNITY_EDITOR
             if (Application.isPlaying) { GameObject.Destroy(parent.GetChild(i-1).gameObject); }
             else { GameObject.DestroyImmediate(parent.GetChild(i-1).gameObject); }
-#else
+ #else
             GameObject.Destroy(parent.GetChild(i-1).gameObject);
-#endif
+ #endif
         }
         // Create new ones
-        for (int i = parent.childCount; i < options.Count; ++i) {
-#if UNITY_EDITOR
-            if (Application.isPlaying) { GameObject.Instantiate(optionPrefab, parent); }
-            else { PrefabUtility.InstantiatePrefab(optionPrefab, parent); }
-#else
-            GameObject.Instantiate(optionPrefab, parent);
-#endif
-
-            options[i].icon = defaultIcon;
-            options[i].value = -1;
-            options[i].showValueText = true;
+        for (int i = parent.childCount; i < setting.options.Count; ++i) {
+            GameObject newOption;
+ #if UNITY_EDITOR
+            if (Application.isPlaying) { newOption = GameObject.Instantiate(setting.optionPrefab, parent); }
+            else { newOption = PrefabUtility.InstantiatePrefab(setting.optionPrefab, parent) as GameObject; }
+ #else
+            newOption = GameObject.Instantiate(optionPrefab, parent);
+ #endif
+            // TODO:
+            // -- Set onClick for the new options
         }
     }
 
     // Setup grid layout
     void SetupGridLayout() {
-        gridEditor.constraintType = gridConstraintType;
-        gridEditor.constraintCount = constraintCount;
+        gridEditor.constraintType = setting.gridConstraintType;
+        gridEditor.constraintCount = setting.constraintCount;
     }
 
 
     // ----- GET AND SET VALUE -----
 
-    override public string ValueToString() {
-        valueString = value.ToString();
-        return valueString;
-    }
-    override public void SetValue(string value) {
+    public void SetValue(string value) {
         bool isInt = int.TryParse(value, out int temp);
         if (!isInt) {
             Debug.LogWarning($"SelectSetting: Inputted string \"{value}\" is not an integer. Returning.");
             return;
         }
-        this.value = temp;
+        setting.value = temp;
         Reset();
         return;
     }
@@ -110,32 +90,22 @@ public class SelectSettingObject : SettingObject
 
     // ----- UTILITIES -----
 
-#if UNITY_EDITOR
+ #if UNITY_EDITOR
     void Update() {
         if (!Application.isPlaying) { Reset(); }
     }
-#endif
+ #endif
 
     // Make sure each object is good
     bool GetObjects() {
         bool allGood = true;
-        if (optionPrefab == null) {
-            Debug.Log("No option prefab on SelectSetting: " + gameObject.name);
-            allGood = false;
+        if (setting == null) {
+            Debug.Log("No option SelectSetting: " + gameObject.name);
+            return false;
         }
-        if (defaultIcon == null) {
-            Image img = optionPrefab.GetComponent<Image>();
-            if (img == null) {
-                img = optionPrefab.GetComponentInChildren<Image>();
-            }
-            if (img != null) {
-                defaultIcon = img.sprite;
-            }
-            
-            if (defaultIcon == null) {
-                Debug.Log("No default icon");
-                allGood = false;
-            }
+        if (setting.optionPrefab == null) {
+            //Debug.Log("No option prefab on SelectSetting: " + gameObject.name);
+            allGood = false;
         }
         if (optionParent == null) {
             optionParent = transform.Find("Setting").Find("Grid");
@@ -157,20 +127,12 @@ public class SelectSettingObject : SettingObject
     // Holds each option in this setting to change its info
     [System.Serializable]
     public class Option {
-        [SerializeField] bool dontUpdateLooks = false;
         [HideInInspector] public GameObject gameObject;
-        public Sprite icon;
-        public int value = -1;
-        public bool showValueText = true;
-
         Button button;
         Image image;
         TMP_Text text;
 
         public Option(Option toCopy) {
-            icon = toCopy.icon;
-            value = toCopy.value;
-            showValueText = toCopy.showValueText;
             button = toCopy.button;
             image = toCopy.image;
             text = toCopy.text;
