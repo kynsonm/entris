@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEditor;
 
 namespace PlayerInfo.Settings {
 
@@ -26,7 +27,7 @@ public class SettingClass
     [Tooltip("Color of each image in the setting")]
     public ThemeColor color;
 
-    [SerializeField] UnityEvent loadValueEvent;
+    [SerializeField] protected UnityEvent loadValueEvent;
 
     virtual public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent, int index) {
         throw new System.NotImplementedException();
@@ -58,7 +59,7 @@ public class ToggleSetting : SettingClass {
     [SerializeField] public Sprite onIcon, offIcon;
 
     override public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent, int index) {
-        GameObject obj = GameObject.Instantiate(settingsMenu.toggleSettingPrefab, parent);
+        GameObject obj = SettingClassUtility.Instantiate(settingsMenu.toggleSettingPrefab, parent);
 
         ToggleSettingObject toggle = obj.GetComponent<ToggleSettingObject>();
         if (toggle != null) {
@@ -92,7 +93,7 @@ public class SliderSetting : SettingClass {
     [SerializeField] public float minValue, maxValue;
 
     override public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent, int index) {
-        GameObject obj = GameObject.Instantiate(settingsMenu.sliderSettingPrefab, parent);
+        GameObject obj = SettingClassUtility.Instantiate(settingsMenu.sliderSettingPrefab, parent);
 
         SliderSettingObject slider = obj.GetComponent<SliderSettingObject>();
         if (slider != null) {
@@ -141,7 +142,7 @@ public class SelectSetting : SettingClass {
     [SerializeField] [Min(0)] public int constraintCount;
 
     override public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent, int index) {
-        GameObject obj = GameObject.Instantiate(settingsMenu.selectSettingPrefab, parent);
+        GameObject obj = SettingClassUtility.Instantiate(settingsMenu.selectSettingPrefab, parent);
 
         SelectSettingObject select = obj.GetComponent<SelectSettingObject>();
         if (select != null) {
@@ -154,6 +155,53 @@ public class SelectSetting : SettingClass {
         editorIndex = index;
 
         return obj;
+    }
+}
+
+[System.Serializable]
+public class SettingSpacer : SettingClass {
+    GameObject prefab = null;
+
+    override public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent, int index) {
+        name = "Spacing";
+        info = "";
+        color = ThemeColor.invalid;
+        loadValueEvent = null;
+
+        if (prefab == null) {
+            GameObject temp = new GameObject();
+            prefab = temp;
+            SettingClassUtility.Destroy(temp);
+        }
+        GameObject obj = SettingClassUtility.Instantiate(prefab, parent);
+        editorIndex = index;
+        return obj;
+    }
+}
+
+public static class SettingClassUtility {
+    public static GameObject Instantiate(GameObject prefab, Transform parent) {
+ #if UNITY_EDITOR
+        if (Application.isPlaying) {
+            return GameObject.Instantiate(prefab, parent);
+        } else {
+            return PrefabUtility.InstantiatePrefab(prefab, parent) as GameObject;
+        }
+ #else
+        return GameObject.Instantiate(prefab, parent);
+ #endif
+    }
+
+    public static void Destroy(GameObject gameObject) {
+ #if UNITY_EDITOR
+        if (Application.isPlaying) {
+            GameObject.Destroy(gameObject);
+        } else {
+            GameObject.DestroyImmediate(gameObject);
+        }
+ #else
+        GameObject.Destroy(gameObject);
+ #endif
     }
 }
 

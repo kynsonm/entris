@@ -15,7 +15,11 @@ public class SettingObject : MonoBehaviour
     protected TMP_Text titleText;
     //InfoPopup info;
 
+    [HideInInspector] public int childIndex;
     List<ImageTheme> imageThemes;
+
+    VerticalLayoutEditor verticalLayoutEditor;
+    int verticalLayoutObjectIndex;
 
 
     // Start is called before the first frame update
@@ -33,11 +37,15 @@ public class SettingObject : MonoBehaviour
         // title size = screen.height * settingsMenu.titleSizeMultiplier
         // setting size = object size - title size - (screen * settingsMenu.spacing mult)
         float parentHeight = findViewport(transform).rect.height;
+        float size = parentHeight * settingsMenu.baseSettingSizeMultiplier;
+
+        verticalLayoutEditor.objects[verticalLayoutObjectIndex].size = size / parentHeight;
 
         // Title size
-        float size = gameObject.GetComponent<RectTransform>().rect.height;
+        //float size = gameObject.GetComponent<RectTransform>().rect.height;
         RectTransform titleRect = titleText.transform.parent.GetComponent<RectTransform>();
-        float height = parentHeight * settingsMenu.titleSizeMultiplier;
+        //float height = parentHeight * settingsMenu.titleSizeMultiplier;
+        float height = size * settingsMenu.titleSizeMultiplier;
         titleRect.sizeDelta = new Vector2(0f, height);
         titleRect.anchoredPosition = new Vector2(0f, 0f);
 
@@ -78,6 +86,19 @@ public class SettingObject : MonoBehaviour
         bool allGood = true;
         if (settingsMenu == null) {
             allGood = false;
+        }
+        if (verticalLayoutEditor == null) {
+            verticalLayoutEditor = transform.parent.GetComponent<VerticalLayoutEditor>();
+            if (verticalLayoutEditor == null) {
+                allGood = false;
+            }
+        }
+        if (verticalLayoutEditor != null) {
+            for (int i = 0; i < verticalLayoutEditor.objects.Count; ++i) {
+                if (verticalLayoutEditor.objects[i].gameObject == gameObject) {
+                    verticalLayoutObjectIndex = i;
+                }
+            }
         }
         if (titleText == null) {
             titleText = gameObject.GetComponentInChildren<TMP_Text>();

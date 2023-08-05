@@ -13,13 +13,18 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] ScrollRectPagesMenu scrollRectPages;
 
     [Header("Sizing")]
-    public float titleSizeMultiplier;
-    public float spacingSizeMultiplier;
+    [Range(0f, 0.5f)] public float baseSettingSizeMultiplier;
+    [Range(0f, 1.0f)] public float titleSizeMultiplier;
+    [Range(0f, 1.0f)] public float spacingSizeMultiplier;
+    [SerializeField] [Min(2f)] float achievementSpacingDivier = 50f;
 
     [Header("Prefabs")]
     [SerializeField] public GameObject toggleSettingPrefab;
     [SerializeField] public GameObject sliderSettingPrefab;
     [SerializeField] public GameObject selectSettingPrefab;
+
+    [Space(10f)]
+    [SerializeField] bool DEBUG_HardReset = false;
 
 
     // Monobehaviour stuff
@@ -37,8 +42,8 @@ public class SettingsMenu : MonoBehaviour
     int lastNumberOfTabs;
     List<int> lastNumberOfElements;
     void resetCheckingVariables() {
-        int lastNumberOfTabs = 0;
-        List<int> lastNumberOfElements = new List<int>();
+        lastNumberOfTabs = 0;
+        lastNumberOfElements = new List<int>();
         int currentElementCount = 0;
         var settingPages = SettingsManager.settings();
         var tabs = scrollRectPages.tabs;
@@ -53,6 +58,11 @@ public class SettingsMenu : MonoBehaviour
         }
     }
     void Update() {
+        if (DEBUG_HardReset) {
+            DEBUG_HardReset = false;
+            Reset();
+            resetCheckingVariables();
+        }
         if (Application.isPlaying) { return; }
 
         int numberOfTabs = 0;
@@ -72,11 +82,12 @@ public class SettingsMenu : MonoBehaviour
             for (int j = 0; j < settingPages[i].settings.Count; ++j) {
                 var setting = settingPages[i].settings[j];
                 if (!setting.checkIndex(j)) {
+
+                    Debug.Log("Resetting settings from iterative check");
+
                     Reset();
                     resetCheckingVariables();
                     return;
-                } else {
-
                 }
 
                 ++currentElementCount;
@@ -86,8 +97,7 @@ public class SettingsMenu : MonoBehaviour
             numberOfElements.Add(currentElementCount);
             currentElementCount = 0;
         }
-
-        // Check sizes of everything
+        // Check sizes of each object/variable
         if (numberOfTabs != lastNumberOfTabs || numberOfElements.Count != lastNumberOfElements.Count) {
             Reset();
             resetCheckingVariables();
@@ -95,6 +105,9 @@ public class SettingsMenu : MonoBehaviour
         }
         for (int i = 0; i < lastNumberOfElements.Count; ++i) {
             if (numberOfElements[i] != lastNumberOfElements[i]) {
+
+                Debug.Log("Resetting settings from number of elements check");
+
                 Reset();
                 resetCheckingVariables();
                 return;
@@ -106,6 +119,8 @@ public class SettingsMenu : MonoBehaviour
 
     // Destroy and create settings
     public void Reset() {
+        Debug.Log("Resetting settings");
+
         DestroySettings();
         CreateSettings();
     }
@@ -117,7 +132,8 @@ public class SettingsMenu : MonoBehaviour
             Transform holder = SettingHolder(tab);
             if (holder == null) { continue; }
 
-            foreach (Transform child in holder) {
+            for (int i = holder.childCount - 1; i >= 0; --i) {
+                Transform child = holder.GetChild(i);
  #if UNITY_EDITOR
                 if (Application.isPlaying) {
                     GameObject.Destroy(child.gameObject);
@@ -151,8 +167,11 @@ public class SettingsMenu : MonoBehaviour
                 var setting = settingPages[i].settings[j];
                 // Creates the setting and also resets it
                 GameObject settingObj = setting.CreateObject(this, holder, j);
-                
-                // do something? idk
+            }
+
+            VerticalLayoutEditor vertEditor = holder.GetComponent<VerticalLayoutEditor>();
+            if (vertEditor != null) {
+                vertEditor.spacingDivider = achievementSpacingDivier;
             }
         }
     }

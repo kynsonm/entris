@@ -12,7 +12,7 @@ public class VerticalLayoutEditor : MonoBehaviour
 {
     [System.Serializable]
     public class VerticalLayoutObject {
-        [SerializeField] GameObject gameObject;
+        [SerializeField] public GameObject gameObject;
         [HideInInspector] LayoutElement layoutGroup;
         [SerializeField] [Min(0f)] public float size;
         public Transform transform {
