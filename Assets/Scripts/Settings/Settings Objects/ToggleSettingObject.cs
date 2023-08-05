@@ -20,7 +20,7 @@ public class ToggleSettingObject : SettingObject
     // Start is called before the first frame update
     void OnEnable() { StartCoroutine(Start()); }
     IEnumerator Start() {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(1f);
         Reset();
     }
  #if UNITY_EDITOR
@@ -32,7 +32,10 @@ public class ToggleSettingObject : SettingObject
 
     // Set each objects stuffff
     new public void Reset() {
-        if (!GetObjects()) { return; }
+        if (!GetObjects()) {
+            Debug.LogWarning($"ToggleSettingObject: Can't reset \"{gameObject.name}\"");
+            return;
+        }
         base.Reset();
         gameObject.name = (setting.name == "") ? "Toggle Setting" : setting.name;
         titleText.text = setting.name;

@@ -90,6 +90,20 @@ public class HorizontalLayoutEditor : MonoBehaviour
     }
  #endif
 
+    // Make sure all the <objects> are good and reset them if not
+    // -- Run at a constant interval INDEPENDENT of framerate
+    IEnumerator CheckObjectsEnum() {
+        if (!Application.isPlaying) {
+            yield break;
+        }
+        while (true) {
+            yield return new WaitForSeconds(0.333f);
+            if (needsToReset()) {
+                Reset();
+            }
+        }
+    }
+
     public void Reset() {
         if (!gameObject.activeInHierarchy) { return; }
         GetObjects();
@@ -104,6 +118,9 @@ public class HorizontalLayoutEditor : MonoBehaviour
         }
         CheckAndUpdateSizes();
         UpdatePadding();
+
+        StopAllCoroutines();
+        StartCoroutine(CheckObjectsEnum());
     }
 
     float lastTotalSize;
@@ -219,12 +236,29 @@ public class HorizontalLayoutEditor : MonoBehaviour
         }
     }
 
-    void GetObjects() {
+    bool needsToReset() {
+        if (!GetObjects()) { return true; }
+        if (objects.Count != transform.childCount - ignoreCount) {
+            return true;
+        }
+        for (int i = 0; i < objects.Count; ++i) {
+            if (!objects[i].allGood) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool GetObjects() {
+        bool allGood = true;
         if (rectTransform == null) {
             rectTransform = gameObject.GetComponent<RectTransform>();
+            allGood = false;
         }
         if (horizontal == null) {
-            horizontal = gameObject.GetComponent<HorizontalLayoutGroup>();
+                horizontal = gameObject.GetComponent<HorizontalLayoutGroup>();
+            allGood = false;
         }
+        return allGood;
     }
 }}

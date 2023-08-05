@@ -1,10 +1,8 @@
 {
-    "name": "ExternalAssembly",
+    "name": "buttonfactory.subclassattribute.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:0774ebc2e50036e418a54532d07f4716",
-        "GUID:69cc1f02cf0b3904cb62d3c71473faee"
+        "buttonfactory.subclassattribute"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

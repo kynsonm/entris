@@ -73,7 +73,6 @@ public class VerticalLayoutEditor : MonoBehaviour
     RectTransform rectTransform;
     VerticalLayoutGroup vertical;
     int ignoreCount = 0;
-    float spacingSize;
 
     // Start is called before the first frame update
     private void OnEnable() { StartCoroutine(Start()); }
@@ -89,6 +88,20 @@ public class VerticalLayoutEditor : MonoBehaviour
     }
  #endif
 
+    // Make sure all the <objects> are good and reset them if not
+    // -- Run at a constant interval INDEPENDENT of framerate
+    IEnumerator CheckObjectsEnum() {
+        if (!Application.isPlaying) {
+            yield break;
+        }
+        while (true) {
+            yield return new WaitForSeconds(0.333f);
+            if (needsToReset()) {
+                Reset();
+            }
+        }
+    }
+
     public void Reset() {
         if (!gameObject.activeInHierarchy) { return; }
         GetObjects();
@@ -103,6 +116,9 @@ public class VerticalLayoutEditor : MonoBehaviour
         }
         CheckAndUpdateSizes();
         UpdatePadding();
+
+        StopAllCoroutines();
+        StartCoroutine(CheckObjectsEnum());
     }
 
     void CheckAndUpdateSizes() {
@@ -175,7 +191,6 @@ public class VerticalLayoutEditor : MonoBehaviour
         vertical.padding.bottom = horPad.y;
 
         vertical.spacing = (spacingDivider < 1f) ? 0 : (rectTransform.rect.height / spacingDivider);
-        spacingSize = vertical.spacing;
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(gameObject.GetComponentInChildren<RectTransform>());
     }
@@ -217,12 +232,29 @@ public class VerticalLayoutEditor : MonoBehaviour
         }
     }
 
-    void GetObjects() {
+    bool needsToReset() {
+        if (!GetObjects()) { return true; }
+        if (objects.Count != transform.childCount - ignoreCount) {
+            return true;
+        }
+        for (int i = 0; i < objects.Count; ++i) {
+            if (!objects[i].allGood) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool GetObjects() {
+        bool allGood = true;
         if (rectTransform == null) {
             rectTransform = gameObject.GetComponent<RectTransform>();
+            allGood = false;
         }
         if (vertical == null) {
             vertical = gameObject.GetComponent<VerticalLayoutGroup>();
+            allGood = false;
         }
+        return allGood;
     }
 }}

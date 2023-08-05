@@ -167,8 +167,8 @@ public class ScrollRectPagesMenu : MonoBehaviour
         }
 
         float rightPadding = menuParentWidth * menuHorPaddingMult.y;
-        if (!onePage && tabs.Count > 0 && tabs[tabs.Count-1].menuSizeMultiplier < 1f) {
-            float newPadding = 0.5f * menuParentWidth * (1f - tabs[tabs.Count-1].menuSizeMultiplier);
+        if (!onePage && tabs.Count > 0 && tabs[^1].menuSizeMultiplier < 1f) {
+            float newPadding = 0.5f * menuParentWidth * (1f - tabs[^1].menuSizeMultiplier);
             if (rightPadding < newPadding) {
                 rightPadding = newPadding;
             }
@@ -208,7 +208,7 @@ public class ScrollRectPagesMenu : MonoBehaviour
         if (tabs.Count != tabsHolder.childCount) {
             if (tabs.Count > tabsHolder.childCount) {
                 GameObject newTab = PrefabUtility.InstantiatePrefab(tabPrefab, tabsHolder) as GameObject;
-                TabClass tab = tabs[tabs.Count-1];
+                TabClass tab = tabs[^1];
                 tab.tabObject = newTab;
                 tab.iconImage = newTab.transform.GetChild(0).GetComponent<Image>();
                 tab.imageTheme = newTab.GetComponent<ImageTheme>();
@@ -228,7 +228,7 @@ public class ScrollRectPagesMenu : MonoBehaviour
         if (tabs.Count != tabMenusHolder.childCount) {
             if (tabs.Count > tabMenusHolder.childCount) {
                 GameObject newMenu = PrefabUtility.InstantiatePrefab(tabMenuPrefab, tabMenusHolder) as GameObject;
-                TabClass tab = tabs[tabs.Count-1];
+                TabClass tab = tabs[^1];
                 tab.menuObject = newMenu;
                 tab.titleRect = newMenu.transform.Find("Title Area").GetComponent<RectTransform>();
                 tab.tabNameTMP = newMenu.transform.Find("Title Area").Find("Title Text").GetComponent<TMP_Text>();

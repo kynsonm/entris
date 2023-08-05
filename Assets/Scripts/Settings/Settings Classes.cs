@@ -28,8 +28,14 @@ public class SettingClass
 
     [SerializeField] UnityEvent loadValueEvent;
 
-    virtual public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent) {
+    virtual public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent, int index) {
         throw new System.NotImplementedException();
+    }
+
+    // For editor things
+    [HideInInspector] public int editorIndex;
+    public bool checkIndex(int currentSettingIndex) {
+        return editorIndex == currentSettingIndex;
     }
 }
 
@@ -51,17 +57,18 @@ public class ToggleSetting : SettingClass {
     [SerializeField] public string onMessage, offMessage;
     [SerializeField] public Sprite onIcon, offIcon;
 
-    override public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent) {
+    override public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent, int index) {
         GameObject obj = GameObject.Instantiate(settingsMenu.toggleSettingPrefab, parent);
 
         ToggleSettingObject toggle = obj.GetComponent<ToggleSettingObject>();
         if (toggle != null) {
             toggle.settingsMenu = settingsMenu;
             toggle.setting = this;
-            toggle.Reset();
+            //toggle.Reset();
         } else {
             Debug.Log($"No ToggleSettingObject on toggle setting object: \'{obj.name}\"");
         }
+        editorIndex = index;
 
         return obj;
     }
@@ -84,17 +91,18 @@ public class SliderSetting : SettingClass {
 
     [SerializeField] public float minValue, maxValue;
 
-    override public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent) {
+    override public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent, int index) {
         GameObject obj = GameObject.Instantiate(settingsMenu.sliderSettingPrefab, parent);
 
         SliderSettingObject slider = obj.GetComponent<SliderSettingObject>();
         if (slider != null) {
             slider.settingsMenu = settingsMenu;
             slider.setting = this;
-            slider.Reset();
+            //slider.Reset();
         } else {
             Debug.Log($"No SliderSettingObject on slider setting object: \'{obj.name}\"");
         }
+        editorIndex = index;
 
         return obj;
     }
@@ -132,17 +140,18 @@ public class SelectSetting : SettingClass {
     [SerializeField] public GridLayoutEditor.ConstraintType gridConstraintType;
     [SerializeField] [Min(0)] public int constraintCount;
 
-    override public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent) {
+    override public GameObject CreateObject(SettingsMenu settingsMenu, Transform parent, int index) {
         GameObject obj = GameObject.Instantiate(settingsMenu.selectSettingPrefab, parent);
 
         SelectSettingObject select = obj.GetComponent<SelectSettingObject>();
         if (select != null) {
             select.settingsMenu = settingsMenu;
             select.setting = this;
-            select.Reset();
+            //select.Reset();
         } else {
             Debug.Log($"No SliderSettingObject on slider setting object: \'{obj.name}\"");
         }
+        editorIndex = index;
 
         return obj;
     }

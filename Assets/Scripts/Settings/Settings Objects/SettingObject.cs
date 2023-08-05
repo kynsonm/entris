@@ -26,19 +26,24 @@ public class SettingObject : MonoBehaviour
     // Setup setting name, info, color
     public void Reset() {
         if (!GetObjects()) {
-            //Debug.LogWarning("SettingObject: GetObjects() is false on " + gameObject.name);
+            Debug.LogWarning("SettingObject: GetObjects() is false on " + gameObject.name);
             return;
         }
 
-        // Title and setting size
+        // title size = screen.height * settingsMenu.titleSizeMultiplier
+        // setting size = object size - title size - (screen * settingsMenu.spacing mult)
+        float parentHeight = findViewport(transform).rect.height;
+
+        // Title size
         float size = gameObject.GetComponent<RectTransform>().rect.height;
         RectTransform titleRect = titleText.transform.parent.GetComponent<RectTransform>();
-        float height = Screen.height * (settingsMenu.titleSizeMultiplier - settingsMenu.spacingSizeMultiplier);
+        float height = parentHeight * settingsMenu.titleSizeMultiplier;
         titleRect.sizeDelta = new Vector2(0f, height);
         titleRect.anchoredPosition = new Vector2(0f, 0f);
 
+        // Setting size
         RectTransform settingRect = gameObject.transform.Find("Setting").GetComponent<RectTransform>();
-        height = size - (Screen.height * settingsMenu.titleSizeMultiplier);
+        height = size - height * (1f + settingsMenu.spacingSizeMultiplier);
         settingRect.sizeDelta = new Vector2(0f, height);
         settingRect.anchoredPosition = new Vector2(0f, 0f);
     }
@@ -57,6 +62,14 @@ public class SettingObject : MonoBehaviour
         }
     }
 
+    RectTransform findViewport(Transform transform) {
+        if (transform == null) { return null; }
+        ScrollRect scroll = transform.GetComponent<ScrollRect>();
+        if (scroll == null) {
+            return findViewport(transform.parent);
+        }
+        return scroll.viewport;
+    }
 
     // ----- UTILITIES -----
 

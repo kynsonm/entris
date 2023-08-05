@@ -7,11 +7,19 @@ public class SettingsManager : MonoBehaviour
 {
     [System.Serializable]
     public class SettingGroup {
-        [SerializeField] public List<SettingClass> settings;
+        [SerializeReference]
+        public List<SettingClass> settings;
     }
 
-    [SerializeField] public List<SettingGroup> allSettings;
+    [System.Serializable]
+    public class SettingGroup_Container {
+        [SerializeField]
+        public SettingGroup settingGroup;
+    }
 
+    [BF_SubclassList.SubclassList(typeof(SettingClass)), SerializeField]
+    public SettingGroup allSettings;
+    
 
     void Awake() {
         Settings.Load();
@@ -56,6 +64,10 @@ public class SettingsManager : MonoBehaviour
     // Get all the achievements
     public static List<SettingGroup> settings() {
         if (!ManagerIsGood()) { return null; }
-        return settingsManager.allSettings;
+        List<SettingGroup> settings = new List<SettingGroup>{
+            settingsManager.allSettings
+        };
+        return settings;
+        //return settingsManager.allSettings;
     }
 }
