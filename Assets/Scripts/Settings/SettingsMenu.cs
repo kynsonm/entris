@@ -16,12 +16,14 @@ public class SettingsMenu : MonoBehaviour
     [Range(0f, 0.5f)] public float baseSettingSizeMultiplier;
     [Range(0f, 1.0f)] public float titleSizeMultiplier;
     [Range(0f, 1.0f)] public float spacingSizeMultiplier;
+    [Range(0f, 1.0f)] public float spacingObjectSize;
     [SerializeField] [Min(2f)] float achievementSpacingDivier = 50f;
 
     [Header("Prefabs")]
     [SerializeField] public GameObject toggleSettingPrefab;
     [SerializeField] public GameObject sliderSettingPrefab;
     [SerializeField] public GameObject selectSettingPrefab;
+    [SerializeField] public GameObject spacingPrefab;
 
     [Space(10f)]
     [SerializeField] bool DEBUG_HardReset = false;

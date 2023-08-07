@@ -26,6 +26,7 @@ public static class Theme
     public static TMP_FontAsset font_main, font_bold, font_thin;
 
     static ThemeManager themeManager;
+    static BackgroundManager backgroundManager;
 
     public static void SetTheme(ThemeClass theme, FontClass font, BlockClass blocks) {
         if (theme != null)  { SetTheme(theme); }
@@ -33,6 +34,7 @@ public static class Theme
         if (blocks != null) { SetBlocks(blocks); }
         Reset();
     }
+
     public static void SetTheme(ThemeClass theme) {
         Theme.name = theme.name;
         Theme.description = theme.description;
@@ -55,6 +57,11 @@ public static class Theme
 
         Reset();
     }
+    public static void SetTheme(int themeIndex) {
+        if (!checkThemeManager()) { return; }
+        themeManager.SetTheme(themeIndex);
+    }
+
     public static void SetFont(FontClass font) {
         Theme.font_name = font.name;
         Theme.font_description = font.description;
@@ -64,11 +71,21 @@ public static class Theme
         Theme.font_thin = font.thin;
         Reset();
     }
+    public static void SetFont(int fontIndex) {
+        if (!checkThemeManager()) { return; }
+        themeManager.SetFont(fontIndex);
+    }
+
     public static void SetBlocks(BlockClass blocks) {
         Theme.backgroundSprite = blocks.backgroundSprite;
         Theme.blockSprite = blocks.blockSprite;
         Reset();
     }
+    public static void SetBlocks(int blockIndex) {
+        if (!checkThemeManager()) { return; }
+        themeManager.SetBlocks(blockIndex);
+    }
+
 
     public static void Reset() {
         if (!checkThemeManager()) { return; }
@@ -286,6 +303,16 @@ public static class Theme
         }
         return true;
     }
+    static bool checkBackgroundManager() {
+        if (backgroundManager == null) {
+            backgroundManager = GameObject.FindObjectOfType<BackgroundManager>();
+            if (backgroundManager == null) {
+                Debug.LogWarning("No BackgroundManager object in the scene!!");
+            }
+        }
+        return true;
+    }
+
     static bool themeIsSelected() {
         bool allGood = colorIsNotBlack(Theme.UI_accent1);
         allGood = allGood && colorIsNotBlack(Theme.UI_accent2);

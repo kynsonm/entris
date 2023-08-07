@@ -74,7 +74,7 @@ public class VerticalLayoutEditor : MonoBehaviour
     VerticalLayoutGroup vertical;
     int ignoreCount = 0;
 
-    // Start is called before the first frame update
+    // Monobehaviour stuff
     private void OnEnable() { StartCoroutine(Start()); }
     private IEnumerator Start() {
         yield return new WaitForEndOfFrame();
@@ -102,6 +102,9 @@ public class VerticalLayoutEditor : MonoBehaviour
         }
     }
 
+    // Reset the whole thing
+    // -- Get the necessary objects and add all elements/children to <objects>
+    // -- Then set sizing/padding
     public void Reset() {
         if (!gameObject.activeInHierarchy) { return; }
         GetObjects();
@@ -117,10 +120,12 @@ public class VerticalLayoutEditor : MonoBehaviour
         CheckAndUpdateSizes();
         UpdatePadding();
 
-        StopAllCoroutines();
+        StopCoroutine(CheckObjectsEnum());
         StartCoroutine(CheckObjectsEnum());
     }
 
+
+    // Set the size of each child and of the parent (if necessary)
     void CheckAndUpdateSizes() {
         vertical.childControlWidth = true;
         vertical.childForceExpandWidth = true;
@@ -209,6 +214,11 @@ public class VerticalLayoutEditor : MonoBehaviour
 
         // For all children
         foreach (Transform child in transform) {
+            if (child == null) {
+                Debug.Log("Child is null");
+                continue;
+            }
+
             LayoutElement layout = child.gameObject.GetComponent<LayoutElement>();
             // If objects does not have a layout element, give it one!
             if (layout == null) {
@@ -231,6 +241,22 @@ public class VerticalLayoutEditor : MonoBehaviour
             }
         }
     }
+
+
+    // ----- PUBLIC METHODS -----
+
+    public void SetChildSize(int index, float size, float delay) {
+        StartCoroutine(SetChildSizeEnum(index, size, delay));
+    }
+    IEnumerator SetChildSizeEnum(int index, float size, float delay) {
+        yield return new WaitForSeconds(delay);
+        if (index > objects.Count - 1) { yield break; }
+        objects[index].size = size;
+        CheckAndUpdateSizes();
+    }
+
+
+    // ----- UTILITIES -----
 
     bool needsToReset() {
         if (!GetObjects()) { return true; }

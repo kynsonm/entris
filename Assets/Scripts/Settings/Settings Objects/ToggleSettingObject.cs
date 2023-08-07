@@ -20,7 +20,9 @@ public class ToggleSettingObject : SettingObject
     // Start is called before the first frame update
     void OnEnable() { StartCoroutine(Start()); }
     IEnumerator Start() {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
         Reset();
     }
  #if UNITY_EDITOR
