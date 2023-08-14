@@ -19,7 +19,7 @@ public class SettingsManager : MonoBehaviour
         public SettingGroup settingGroup;
     }
 
-    [BF_SubclassList.SubclassList(typeof(SettingClass)), SerializeField]
+    [SubclassList.SubclassList(typeof(SettingClass)), SerializeField]
     public SettingGroup allSettings;
     
 

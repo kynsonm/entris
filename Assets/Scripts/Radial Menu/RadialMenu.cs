@@ -453,15 +453,15 @@ IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler, IPointerUpHandle
         public RadialButton(GameObject prefab, Transform parent) {
             if (prefab == null || parent == null) { return; }
 
-#if UNITY_EDITOR
+ #if UNITY_EDITOR
             if (Application.isPlaying) {
                 gameObject = Instantiate(prefab, parent);
             } else {
                 gameObject = PrefabUtility.InstantiatePrefab(prefab, parent) as GameObject;
             }
-#else
+ #else
             gameObject = Instantiate(prefab, parent);
-#endif
+ #endif
             for (int i = 0; i < 5; ++i) {
                 GetObjects();
             }

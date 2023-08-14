@@ -229,9 +229,25 @@ public static class Theme
     public static Color MixedColor(BlockColor originalColor, ThemeColor mixColor, float mixedColorPercentage) {
         return mix(Theme.ColorFromType(originalColor), Theme.ColorFromType(mixColor), mixedColorPercentage);
     }
+    public static Color MixedColor(ThemeColor originalColor, ThemeColor mixColor) {
+        return MixedColor(originalColor, mixColor, 0.5f);
+    }
+    public static Color MixedColor(ImageColor originalColor, ThemeColor mixColor) {
+        return MixedColor(originalColor, mixColor, 0.5f);
+    }
+    public static Color MixedColor(TextColor originalColor, ThemeColor mixColor) {
+        return MixedColor(originalColor, mixColor, 0.5f);
+    }
+    public static Color MixedColor(BlockColor originalColor, ThemeColor mixColor) {
+        return MixedColor(originalColor, mixColor, 0.5f);
+    }
 
 
     // ----- STRINGS -----
+
+    public static string ColorCode(Color color) {
+        return "<#" + ColorUtility.ToHtmlStringRGBA(color) + ">";
+    }
 
     public static string ParseString(string text) {
         string str = text;

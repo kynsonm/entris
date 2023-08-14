@@ -95,12 +95,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 39.3
+  m_fontSize: 45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 39.3
+  m_fontSizeMax: 45
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -591,7 +591,7 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 0
-    m_Bottom: 65
+    m_Bottom: 71
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -718,15 +718,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 81.9
+  m_fontSize: 90
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 81.9
+  m_fontSizeMax: 90
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -859,7 +859,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 2000
+  m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -879,8 +879,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 9
-    m_Bottom: 22
+    m_Top: 10
+    m_Bottom: 25
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -990,7 +990,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 9.882286
+  m_PixelsPerUnitMultiplier: 9.096847
 --- !u!114 &9042522144634615276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1087,7 +1087,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 3.6405325
+  m_PixelsPerUnitMultiplier: 3.2983613
 --- !u!114 &9042522144725366128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1145,8 +1145,8 @@ RectTransform:
   m_Father: {fileID: 9042522144984289266}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1378,7 +1378,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 519, y: -181.65}
-  m_SizeDelta: {x: 1038, y: 363.3}
+  m_SizeDelta: {x: 1038, y: 311.40002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9042522144984289270
 MonoBehaviour:
@@ -1413,6 +1413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   user:
+    username: 
     nickname: Jubbykim
     catchphrase: Default  catchphrase blah blah blah
     profilePicture: {fileID: 21300000, guid: 98f8f256025697b42a5446f4e5976464, type: 3}
@@ -1422,10 +1423,13 @@ MonoBehaviour:
     coins: 100
     xp: 100
     level: 2
-  showUsername: 0
-  customColors: 0
-  showLevelStuff: 0
-  showXpStuff: 0
+  showUsername: 1
+  customColors: 1
+  showLevelStuff: 1
+  showXpStuff: 1
+  userArea: {fileID: 0}
+  levelArea: {fileID: 0}
+  xpArea: {fileID: 0}
   nameText: {fileID: 9042522144511694384}
   catchphraseText: {fileID: 9042522143979261043}
   profilePicImage: {fileID: 9042522145017321714}
@@ -1448,8 +1452,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 72
     m_Right: 51
-    m_Top: 36
-    m_Bottom: 36
+    m_Top: 40
+    m_Bottom: 40
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -1476,7 +1480,7 @@ MonoBehaviour:
   expandParentSizeToChildrenSize: 0
   objects:
   - gameObject: {fileID: 9042522144754263662}
-    size: 1500
+    size: 2000
   - gameObject: {fileID: 9042522144211394650}
     size: 500
   vertPaddingMultiplier: {x: 0.1, y: 0.1}
@@ -1559,7 +1563,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 9.882286
+  m_PixelsPerUnitMultiplier: 9.096847
 --- !u!114 &9042522145011790807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1608,7 +1612,7 @@ RectTransform:
   m_GameObject: {fileID: 9042522145017321484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9042522145081085505}
@@ -1730,7 +1734,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 500
+  m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -1771,8 +1775,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 15.000002}
-  m_SizeDelta: {x: 0, y: 10.000003}
+  m_AnchoredPosition: {x: 0, y: 10.000002}
+  m_SizeDelta: {x: 0, y: 20.000004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9042522145324715553
 CanvasRenderer:
@@ -1811,7 +1815,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 3.6862097
+  m_PixelsPerUnitMultiplier: 3.4190762
 --- !u!114 &9042522145324715555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1926,12 +1930,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 27.112501
+  m_fontSize: 29.4375
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 27.112501
+  m_fontSizeMax: 29.4375
   m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -2144,12 +2148,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 89.4
+  m_fontSize: 97.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 89.4
+  m_fontSizeMax: 97.4
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256

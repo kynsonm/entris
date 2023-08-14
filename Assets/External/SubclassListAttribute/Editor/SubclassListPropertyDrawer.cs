@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System.Collections.Generic;
 using System;
 using UnityEditor;
@@ -5,7 +7,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using System.Linq;
 
-namespace BF_SubclassList
+namespace SubclassList
 {
     [CustomPropertyDrawer(typeof(SubclassListAttribute))]
     public class SubclassListPropertyDrawer : PropertyDrawer
@@ -129,3 +131,5 @@ namespace BF_SubclassList
         }
     }
 }
+
+#endif

@@ -60,7 +60,7 @@ public class SelectSettingObject : SettingObject
             if (Application.isPlaying) { newOption = GameObject.Instantiate(setting.optionPrefab, parent); }
             else { newOption = PrefabUtility.InstantiatePrefab(setting.optionPrefab, parent) as GameObject; }
  #else
-            newOption = GameObject.Instantiate(optionPrefab, parent);
+            newOption = GameObject.Instantiate(setting.optionPrefab, parent);
  #endif
             // TODO:
             // -- Set onClick for the new options

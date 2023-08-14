@@ -207,7 +207,12 @@ public class ScrollRectPagesMenu : MonoBehaviour
         // Create/destroy tabs/menus if necessary
         if (tabs.Count != tabsHolder.childCount) {
             if (tabs.Count > tabsHolder.childCount) {
-                GameObject newTab = PrefabUtility.InstantiatePrefab(tabPrefab, tabsHolder) as GameObject;
+                GameObject newTab;
+ #if UNITY_EDITOR
+                newTab = PrefabUtility.InstantiatePrefab(tabPrefab, tabsHolder) as GameObject;
+ #else
+                newTab = GameObject.Instantiate(tabPrefab, tabsHolder);
+ #endif
                 TabClass tab = tabs[^1];
                 tab.tabObject = newTab;
                 tab.iconImage = newTab.transform.GetChild(0).GetComponent<Image>();
@@ -227,7 +232,12 @@ public class ScrollRectPagesMenu : MonoBehaviour
         }
         if (tabs.Count != tabMenusHolder.childCount) {
             if (tabs.Count > tabMenusHolder.childCount) {
-                GameObject newMenu = PrefabUtility.InstantiatePrefab(tabMenuPrefab, tabMenusHolder) as GameObject;
+                GameObject newMenu;
+ #if UNITY_EDITOR
+                newMenu = PrefabUtility.InstantiatePrefab(tabMenuPrefab, tabMenusHolder) as GameObject;
+ #else
+                newMenu = GameObject.Instantiate(tabMenuPrefab, tabMenusHolder);
+ #endif
                 TabClass tab = tabs[^1];
                 tab.menuObject = newMenu;
                 tab.titleRect = newMenu.transform.Find("Title Area").GetComponent<RectTransform>();

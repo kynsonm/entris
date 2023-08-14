@@ -11,19 +11,18 @@ public class UserInfoArea : MonoBehaviour
 {
     // ----- VARIABLES -----
 
-    // need:
-    // -- profile pic image, banner image
-    // -- username text, catchphrase text
-    // -- level text, xp text
-    // -- xp progress bar
-
-    /*[HideInInspector]*/ public UserInfoClass user;
+    /*[HideInInspector] */public UserInfoClass user;
 
     [Header("Options")]
     [SerializeField] bool showUsername = true;
     [SerializeField] bool customColors = true;
     [SerializeField] bool showLevelStuff = true;
     [SerializeField] bool showXpStuff = true;
+
+    [Header("Important Objects")]
+    [SerializeField] GameObject userArea;
+    [SerializeField] GameObject levelArea;
+    [SerializeField] GameObject xpArea;
 
     [Header("Text")]
     [SerializeField] TMP_Text nameText;
@@ -77,7 +76,7 @@ public class UserInfoArea : MonoBehaviour
         // Images
         CheckNullAndExecute(profilePicImage, () => { profilePicImage.sprite = user.profilePicture; });
         CheckNullAndExecute(bannerImage, () => { bannerImage.sprite = user.profileBanner; });
-        if (getObjects) {
+        if (getObjects && customColors) {
             profilePicTheme.color = user.profilePictureColor;
             bannerTheme.color = user.profileBannerColor;
         }
@@ -85,22 +84,37 @@ public class UserInfoArea : MonoBehaviour
 
     // Resets level text, slider, and slider text
     void ResetLevelObjects() {
+        // Turn the area on/off
+        CheckNullAndExecute(levelArea, () => { GetCanvasGroup(levelArea).alpha = showLevelStuff ? 1f : 0f; });
+        if (!showLevelStuff) { return; }
 
+        // Set level text
+        CheckNullAndExecute(levelText, () => { levelText.text = user.level.ToString(); });
+
+        // Set xp stuff
+        CheckNullAndExecute(xpArea, () => { GetCanvasGroup(xpArea).alpha = showXpStuff ? 1f : 0f; });
+        if (!showXpStuff) { return; }
+
+        int xp = user.xp;
+        int outOf = 100;
+        CheckNullAndExecute(xpText, () => {
+            xpText.text = xp.ToString() + " / " + outOf.ToString();
+        });
+        CheckNullAndExecute(xpSlider, () => { xpSlider.value = (float)xp / (float)outOf; });
     }
 
     // Check nickname, username, and options to return a formatted string
     string FormatUsersName() {
-        string text = "";
-
-        if (user.nickname != null && user.nickname != "") { text = user.nickname; }
-        else { text = user.username; }
-
-        // TODO: Finish this
-
-        if (showUsername) {
-
+        string text = user.username;
+        if (user.nickname != null && user.nickname != "") {
+            text = user.nickname;
         }
-
+        if (showUsername && user.nickname != "") {
+            string code = Theme.ColorCode(Theme.MixedColor(TextColor.main, ThemeColor.text_background));
+            string prefix = " " + code + "<size=50%>";
+            string suffix = "</color></size>";
+            text += prefix + user.username + suffix;
+        }
         return text;
     }
 
@@ -122,6 +136,16 @@ public class UserInfoArea : MonoBehaviour
         }
         executeIfNotNull.Invoke();
         return true;
+    }
+
+    // Get the canvas group off the GameObject
+    // -- If there isnt one, add it
+    CanvasGroup GetCanvasGroup(GameObject gameObject) {
+        CanvasGroup canv = gameObject.GetComponent<CanvasGroup>();
+        if (canv == null) {
+            canv = gameObject.AddComponent<CanvasGroup>();
+        }
+        return canv;
     }
 
     // Get necessary objects to update the objects

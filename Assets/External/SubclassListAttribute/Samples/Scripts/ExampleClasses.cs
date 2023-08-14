@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BF_SubclassList_Examples
+namespace SubclassList_Examples
 {
     [System.Serializable]
     public class A

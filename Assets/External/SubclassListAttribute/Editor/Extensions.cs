@@ -1,8 +1,9 @@
-using System.Collections;
+#if UNITY_EDITOR
+
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEngine;
-namespace BF_SubclassList
+
+namespace SubclassList
 {
     public static class EditorExtensions
     {
@@ -28,3 +29,5 @@ namespace BF_SubclassList
         }
     }
 }
+
+#endif
