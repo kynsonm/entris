@@ -201,16 +201,16 @@ MonoBehaviour:
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 1264410097}
-  - {fileID: 378255669}
-  - {fileID: 1089618669}
-  sizes:
-  - 1000
-  - 5000
-  - 1000
+  - gameObject: {fileID: 1264410097}
+    size: 1000
+  - gameObject: {fileID: 378255669}
+    size: 3750
+  - gameObject: {fileID: 1089618669}
+    size: 1000
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 40
+  dontResetCustomSizesList: 0
 --- !u!114 &10761174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,7 +229,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 32.85
+  m_Spacing: 24.65
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -738,16 +738,16 @@ MonoBehaviour:
   expandHeight: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 1791413739}
-  - {fileID: 10761170}
-  - {fileID: 239803530}
-  sizes:
-  - 1000
-  - 6000
-  - 1500
+  - gameObject: {fileID: 1791413739}
+    size: 1000
+  - gameObject: {fileID: 10761170}
+    size: 6000
+  - gameObject: {fileID: 239803530}
+    size: 1500
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0.035, y: 0.035}
   spacingDivider: 100
+  dontResetCustomSizesList: 0
 --- !u!114 &220751522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,12 +761,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 49
-    m_Right: 49
+    m_Left: 37
+    m_Right: 37
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 28.58
+  m_Spacing: 18.05
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -851,14 +851,14 @@ MonoBehaviour:
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 1491119480}
-  - {fileID: 993152891}
-  sizes:
-  - 1000
-  - 5000
+  - gameObject: {fileID: 1491119480}
+    size: 1000
+  - gameObject: {fileID: 993152891}
+    size: 5000
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
-  spacingDivider: 0
+  spacingDivider: 50
+  dontResetCustomSizesList: 0
 --- !u!114 &239803534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,7 +877,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 8
-  m_Spacing: 0
+  m_Spacing: 19.72
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -992,12 +992,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 77.7
+  m_fontSize: 49.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 77.7
+  m_fontSizeMax: 49.2
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -1080,7 +1080,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &358072919
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1098,8 +1098,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -610.5, y: 276.73804}
-  m_SizeDelta: {x: 1095, y: 493.47595}
+  m_AnchoredPosition: {x: -449.6167, y: 174.78442}
+  m_SizeDelta: {x: 805.23334, y: 311.56845}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &378255669
 GameObject:
@@ -1154,7 +1154,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 5000
+  m_PreferredWidth: 3750
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -1177,7 +1177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &504489829
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1196,8 +1196,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -610.5, y: 276.73804}
-  m_SizeDelta: {x: 1095, y: 493.47595}
+  m_AnchoredPosition: {x: -449.6167, y: 174.78442}
+  m_SizeDelta: {x: 805.23334, y: 311.56845}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &504489830
 MonoBehaviour:
@@ -1481,8 +1481,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 109.5, y: -1243.262}
-  m_SizeDelta: {x: 1095, y: 493.47595}
+  m_AnchoredPosition: {x: 90.3833, y: -785.2156}
+  m_SizeDelta: {x: 805.23334, y: 311.56845}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &732818101
 MonoBehaviour:
@@ -1629,12 +1629,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 111.05
+  m_fontSize: 70.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 111.05
+  m_fontSizeMax: 70.25
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 1024
@@ -2156,7 +2156,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 1000
+  m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -2177,14 +2177,14 @@ MonoBehaviour:
   expandHeight: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 2105240175}
-  - {fileID: 1827494014}
-  sizes:
-  - 500
-  - 500
+  - gameObject: {fileID: 2105240175}
+    size: 500
+  - gameObject: {fileID: 1827494014}
+    size: 500
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 100
+  dontResetCustomSizesList: 0
 --- !u!114 &946937720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2203,7 +2203,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 3.3345919
+  m_Spacing: 2.1105678
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -3408,7 +3408,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 1
-  m_CellSize: {x: 89.16429, y: 89.16429}
+  m_CellSize: {x: 61.08913, y: 61.08913}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 1
@@ -4436,14 +4436,14 @@ MonoBehaviour:
   expandWidth: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 1937267550}
-  - {fileID: 946937716}
-  sizes:
-  - 1500
-  - 1000
+  - gameObject: {fileID: 1937267550}
+    size: -1
+  - gameObject: {fileID: 946937716}
+    size: -1
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 50
+  dontResetCustomSizesList: 0
 --- !u!114 &1791413743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4462,7 +4462,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 26.28
+  m_Spacing: 19.72
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -4507,12 +4507,12 @@ MonoBehaviour:
   expandHeight: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 220751518}
-  sizes:
-  - 0.07473841
+  - gameObject: {fileID: 220751518}
+    size: 0.07473841
   vertPaddingMultiplier: {x: 0.05, y: 0.01}
   horPaddingMultiplier: {x: 0.01, y: 0.01}
   spacingDivider: 0
+  dontResetCustomSizesList: 0
 --- !u!114 &1793469059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4526,10 +4526,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 14
-    m_Right: 14
-    m_Top: 152
-    m_Bottom: 30
+    m_Left: 10
+    m_Right: 10
+    m_Top: 96
+    m_Bottom: 19
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -4728,12 +4728,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84.975006
+  m_fontSize: 63.899998
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 84.975006
+  m_fontSizeMax: 63.899998
   m_fontStyle: 0
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
@@ -4955,7 +4955,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 1500
+  m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -4976,16 +4976,16 @@ MonoBehaviour:
   expandHeight: 1
   expandParentSizeToChildrenSize: 0
   objects:
-  - {fileID: 765490583}
-  - {fileID: 255425725}
-  - {fileID: 1946662323}
-  sizes:
-  - 500
-  - 350
-  - 350
+  - gameObject: {fileID: 765490583}
+    size: 500
+  - gameObject: {fileID: 255425725}
+    size: 350
+  - gameObject: {fileID: 1946662323}
+    size: 350
   vertPaddingMultiplier: {x: 0, y: 0}
   horPaddingMultiplier: {x: 0, y: 0}
   spacingDivider: 100
+  dontResetCustomSizesList: 0
 --- !u!114 &1937267554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5004,7 +5004,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 3.3345919
+  m_Spacing: 2.1105678
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -5119,12 +5119,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 77.7
+  m_fontSize: 49.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 77.7
+  m_fontSizeMax: 49.2
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -5679,12 +5679,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100.462494
+  m_fontSize: 63.899998
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 100.462494
+  m_fontSizeMax: 63.899998
   m_fontStyle: 0
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 1024
@@ -6201,11 +6201,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1008889017206170593, guid: d0cc670c1844ec948a8de893299586ab, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 370.10696
+      value: 233.6764
       objectReference: {fileID: 0}
     - target: {fileID: 1008889017206170593, guid: d0cc670c1844ec948a8de893299586ab, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 370.10696
+      value: 233.6764
       objectReference: {fileID: 0}
     - target: {fileID: 1008889017206170593, guid: d0cc670c1844ec948a8de893299586ab, type: 3}
       propertyPath: m_LocalPosition.x

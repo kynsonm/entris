@@ -13,7 +13,7 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Opening Menus")]
     [SerializeField] GameObject mainMenuButtonsMenu;
-    [SerializeField] List<GameObject> openedMenus;
+    [SerializeField] public List<GameObject> openedMenus;
 
     void Awake() {
         openedMenus = new List<GameObject>();

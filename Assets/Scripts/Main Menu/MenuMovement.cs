@@ -11,6 +11,13 @@ public class MenuMovement : MonoBehaviour
     MenuMovement menuMovement;
     MainMenuManager mainMenuManager;
 
+    // --- Monobehaviour stuff
+    void Awake() { Start(); }
+    void Start() {
+        GetObjects();
+    }
+
+    // --- Open menus
     public void Open(GameObject toOpen) {
         Open(toOpen, true);
     }
@@ -26,6 +33,7 @@ public class MenuMovement : MonoBehaviour
         }
     }
 
+    // --- Close specific menu
     public void Close(GameObject toClose) {
         bool closed = TweenObject(toClose, false);
         if (closed && GetObjects()) {
@@ -41,6 +49,20 @@ public class MenuMovement : MonoBehaviour
         }
     }
 
+    // --- Close current menu
+    public void CloseCurrentMenu() {
+        CloseCurrentMenu(true);
+    }
+    public void CloseCurrentMenu(bool removeFromList) {
+        GameObject current = mainMenuManager.openedMenus[^1];
+        if (mainMenuManager.openedMenus.Count == 0) {
+            current = null;
+        }
+        if (removeFromList) { Close(current); }
+        else { CloseWithoutRemoving(current); }
+    }
+
+    // --- Tween the menu based on the serialized sequence
     bool TweenObject(GameObject obj, bool isOpening) {
         if (obj == null) { return false; }
         if (tweenSequence == null || tweenSequence.events.Count == 0) { return false; }
