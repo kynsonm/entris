@@ -11,7 +11,7 @@ public class UserInfoArea : MonoBehaviour
 {
     // ----- VARIABLES -----
 
-    /*[HideInInspector] */public UserInfoClass user;
+    /*[HideInInspector] */public UserClass user;
 
     [Header("Options")]
     [SerializeField] bool showUsername = true;
